@@ -1,0 +1,22 @@
+load("@rules_python//python:defs.bzl", "py_library")
+load("//tests:defs.bzl", "srcds_container_test")
+
+py_library(
+    name = "srcds",
+    testonly = True,
+    srcs = ["srcds.py"],
+    imports = ["."],
+    visibility = ["//visibility:public"],
+    deps = [
+        "@pypi//python_a2s",
+        "@rules_python//python/runfiles",
+    ],
+)
+
+srcds_container_test(
+    name = "server_test",
+    size = "large",
+    src = "server_test.py",
+    image = "//:image_tarball",
+    repo_tag = "hiddensource-server:bazel",
+)

@@ -1,0 +1,2962 @@
+{
+	"packages": [
+		{
+			"arch": "i386",
+			"dependencies": [
+				{
+					"key": "wine32_8.0_repack-4_i386",
+					"name": "wine32",
+					"version": "8.0~repack-4"
+				},
+				{
+					"key": "libwine_8.0_repack-4_i386",
+					"name": "libwine",
+					"version": "8.0~repack-4"
+				},
+				{
+					"key": "libz-mingw-w64_1.2.13-p-dfsg-1_i386",
+					"name": "libz-mingw-w64",
+					"version": "1.2.13+dfsg-1"
+				},
+				{
+					"key": "ocl-icd-libopencl1_2.3.1-1_i386",
+					"name": "ocl-icd-libopencl1",
+					"version": "2.3.1-1"
+				},
+				{
+					"key": "libc6_2.36-9-p-deb12u14_i386",
+					"name": "libc6",
+					"version": "2.36-9+deb12u14"
+				},
+				{
+					"key": "libgcc-s1_12.2.0-14-p-deb12u1_i386",
+					"name": "libgcc-s1",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "gcc-12-base_12.2.0-14-p-deb12u1_i386",
+					"name": "gcc-12-base",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libxext6_2-1.3.4-1-p-b1_i386",
+					"name": "libxext6",
+					"version": "2:1.3.4-1+b1"
+				},
+				{
+					"key": "libx11-6_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-6",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libx11-data_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-data",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libxcb1_1.15-1_i386",
+					"name": "libxcb1",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxdmcp6_1-1.1.2-3_i386",
+					"name": "libxdmcp6",
+					"version": "1:1.1.2-3"
+				},
+				{
+					"key": "libbsd0_0.11.7-2_i386",
+					"name": "libbsd0",
+					"version": "0.11.7-2"
+				},
+				{
+					"key": "libmd0_1.0.4-2_i386",
+					"name": "libmd0",
+					"version": "1.0.4-2"
+				},
+				{
+					"key": "libxau6_1-1.0.9-1_i386",
+					"name": "libxau6",
+					"version": "1:1.0.9-1"
+				},
+				{
+					"key": "libusb-1.0-0_2-1.0.26-1_i386",
+					"name": "libusb-1.0-0",
+					"version": "2:1.0.26-1"
+				},
+				{
+					"key": "libudev1_252.39-1_deb12u2_i386",
+					"name": "libudev1",
+					"version": "252.39-1~deb12u2"
+				},
+				{
+					"key": "libpulse0_16.1-p-dfsg1-2-p-b1_i386",
+					"name": "libpulse0",
+					"version": "16.1+dfsg1-2+b1"
+				},
+				{
+					"key": "libx11-xcb1_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-xcb1",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libelogind0_246.10-1debian1_i386",
+					"name": "libelogind0",
+					"version": "246.10-1debian1"
+				},
+				{
+					"key": "libcap2_1-2.66-4-p-deb12u3-p-b1_i386",
+					"name": "libcap2",
+					"version": "1:2.66-4+deb12u3+b1"
+				},
+				{
+					"key": "libsndfile1_1.2.0-1-p-deb12u1_i386",
+					"name": "libsndfile1",
+					"version": "1.2.0-1+deb12u1"
+				},
+				{
+					"key": "libvorbisenc2_1.3.7-1_i386",
+					"name": "libvorbisenc2",
+					"version": "1.3.7-1"
+				},
+				{
+					"key": "libvorbis0a_1.3.7-1_i386",
+					"name": "libvorbis0a",
+					"version": "1.3.7-1"
+				},
+				{
+					"key": "libogg0_1.3.5-3_i386",
+					"name": "libogg0",
+					"version": "1.3.5-3"
+				},
+				{
+					"key": "libopus0_1.3.1-3_i386",
+					"name": "libopus0",
+					"version": "1.3.1-3"
+				},
+				{
+					"key": "libmpg123-0_1.31.2-1-p-deb12u1_i386",
+					"name": "libmpg123-0",
+					"version": "1.31.2-1+deb12u1"
+				},
+				{
+					"key": "libmp3lame0_3.100-6_i386",
+					"name": "libmp3lame0",
+					"version": "3.100-6"
+				},
+				{
+					"key": "libflac12_1.4.2-p-ds-2_i386",
+					"name": "libflac12",
+					"version": "1.4.2+ds-2"
+				},
+				{
+					"key": "libdbus-1-3_1.14.10-1_deb12u1_i386",
+					"name": "libdbus-1-3",
+					"version": "1.14.10-1~deb12u1"
+				},
+				{
+					"key": "libasyncns0_0.8-6-p-b3_i386",
+					"name": "libasyncns0",
+					"version": "0.8-6+b3"
+				},
+				{
+					"key": "libpcap0.8_1.10.3-1_i386",
+					"name": "libpcap0.8",
+					"version": "1.10.3-1"
+				},
+				{
+					"key": "libgstreamer1.0-0_1.22.0-2-p-deb12u1_i386",
+					"name": "libgstreamer1.0-0",
+					"version": "1.22.0-2+deb12u1"
+				},
+				{
+					"key": "libcap2-bin_1-2.66-4-p-deb12u3-p-b1_i386",
+					"name": "libcap2-bin",
+					"version": "1:2.66-4+deb12u3+b1"
+				},
+				{
+					"key": "libunwind8_1.6.2-3_i386",
+					"name": "libunwind8",
+					"version": "1.6.2-3"
+				},
+				{
+					"key": "liblzma5_5.4.1-1-p-deb12u1_i386",
+					"name": "liblzma5",
+					"version": "5.4.1-1+deb12u1"
+				},
+				{
+					"key": "libglib2.0-0_2.74.6-2-p-deb12u9_i386",
+					"name": "libglib2.0-0",
+					"version": "2.74.6-2+deb12u9"
+				},
+				{
+					"key": "zlib1g_1-1.2.13.dfsg-1_i386",
+					"name": "zlib1g",
+					"version": "1:1.2.13.dfsg-1"
+				},
+				{
+					"key": "libselinux1_3.4-1-p-b6_i386",
+					"name": "libselinux1",
+					"version": "3.4-1+b6"
+				},
+				{
+					"key": "libpcre2-8-0_10.42-1_i386",
+					"name": "libpcre2-8-0",
+					"version": "10.42-1"
+				},
+				{
+					"key": "libmount1_2.38.1-5-p-deb12u3_i386",
+					"name": "libmount1",
+					"version": "2.38.1-5+deb12u3"
+				},
+				{
+					"key": "libblkid1_2.38.1-5-p-deb12u3_i386",
+					"name": "libblkid1",
+					"version": "2.38.1-5+deb12u3"
+				},
+				{
+					"key": "libffi8_3.4.4-1_i386",
+					"name": "libffi8",
+					"version": "3.4.4-1"
+				},
+				{
+					"key": "libdw1_0.188-2.1_i386",
+					"name": "libdw1",
+					"version": "0.188-2.1"
+				},
+				{
+					"key": "libelf1_0.188-2.1_i386",
+					"name": "libelf1",
+					"version": "0.188-2.1"
+				},
+				{
+					"key": "libbz2-1.0_1.0.8-5-p-b1_i386",
+					"name": "libbz2-1.0",
+					"version": "1.0.8-5+b1"
+				},
+				{
+					"key": "libgstreamer-plugins-base1.0-0_1.22.0-3-p-deb12u6_i386",
+					"name": "libgstreamer-plugins-base1.0-0",
+					"version": "1.22.0-3+deb12u6"
+				},
+				{
+					"key": "iso-codes_4.15.0-1_i386",
+					"name": "iso-codes",
+					"version": "4.15.0-1"
+				},
+				{
+					"key": "liborc-0.4-0_1-0.4.33-2_i386",
+					"name": "liborc-0.4-0",
+					"version": "1:0.4.33-2"
+				},
+				{
+					"key": "libgphoto2-port12_2.5.30-1_i386",
+					"name": "libgphoto2-port12",
+					"version": "2.5.30-1"
+				},
+				{
+					"key": "libltdl7_2.4.7-7_deb12u1_i386",
+					"name": "libltdl7",
+					"version": "2.4.7-7~deb12u1"
+				},
+				{
+					"key": "libgphoto2-6_2.5.30-1_i386",
+					"name": "libgphoto2-6",
+					"version": "2.5.30-1"
+				},
+				{
+					"key": "libxml2_2.9.14-p-dfsg-1.3_deb12u6_i386",
+					"name": "libxml2",
+					"version": "2.9.14+dfsg-1.3~deb12u6"
+				},
+				{
+					"key": "libicu72_72.1-3-p-deb12u1_i386",
+					"name": "libicu72",
+					"version": "72.1-3+deb12u1"
+				},
+				{
+					"key": "libstdc-p--p-6_12.2.0-14-p-deb12u1_i386",
+					"name": "libstdc++6",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libjpeg62-turbo_1-2.1.5-2_i386",
+					"name": "libjpeg62-turbo",
+					"version": "1:2.1.5-2"
+				},
+				{
+					"key": "libgd3_2.3.3-9_i386",
+					"name": "libgd3",
+					"version": "2.3.3-9"
+				},
+				{
+					"key": "libxpm4_1-3.5.12-1.1-p-deb12u1_i386",
+					"name": "libxpm4",
+					"version": "1:3.5.12-1.1+deb12u1"
+				},
+				{
+					"key": "libwebp7_1.2.4-0.2-p-deb12u1_i386",
+					"name": "libwebp7",
+					"version": "1.2.4-0.2+deb12u1"
+				},
+				{
+					"key": "libtiff6_4.5.0-6-p-deb12u4_i386",
+					"name": "libtiff6",
+					"version": "4.5.0-6+deb12u4"
+				},
+				{
+					"key": "libzstd1_1.5.4-p-dfsg2-5_i386",
+					"name": "libzstd1",
+					"version": "1.5.4+dfsg2-5"
+				},
+				{
+					"key": "liblerc4_4.0.0-p-ds-2_i386",
+					"name": "liblerc4",
+					"version": "4.0.0+ds-2"
+				},
+				{
+					"key": "libjbig0_2.1-6.1_i386",
+					"name": "libjbig0",
+					"version": "2.1-6.1"
+				},
+				{
+					"key": "libdeflate0_1.14-1_i386",
+					"name": "libdeflate0",
+					"version": "1.14-1"
+				},
+				{
+					"key": "libpng16-16_1.6.39-2-p-deb12u5_i386",
+					"name": "libpng16-16",
+					"version": "1.6.39-2+deb12u5"
+				},
+				{
+					"key": "libheif1_1.15.1-1-p-deb12u1_i386",
+					"name": "libheif1",
+					"version": "1.15.1-1+deb12u1"
+				},
+				{
+					"key": "libx265-199_3.5-2-p-b1_i386",
+					"name": "libx265-199",
+					"version": "3.5-2+b1"
+				},
+				{
+					"key": "libnuma1_2.0.16-1_i386",
+					"name": "libnuma1",
+					"version": "2.0.16-1"
+				},
+				{
+					"key": "libde265-0_1.0.11-1-p-deb12u2_i386",
+					"name": "libde265-0",
+					"version": "1.0.11-1+deb12u2"
+				},
+				{
+					"key": "libdav1d6_1.0.0-2-p-deb12u1_i386",
+					"name": "libdav1d6",
+					"version": "1.0.0-2+deb12u1"
+				},
+				{
+					"key": "libaom3_3.6.0-1-p-deb12u2_i386",
+					"name": "libaom3",
+					"version": "3.6.0-1+deb12u2"
+				},
+				{
+					"key": "libfreetype6_2.12.1-p-dfsg-5-p-deb12u4_i386",
+					"name": "libfreetype6",
+					"version": "2.12.1+dfsg-5+deb12u4"
+				},
+				{
+					"key": "libbrotli1_1.0.9-2-p-b6_i386",
+					"name": "libbrotli1",
+					"version": "1.0.9-2+b6"
+				},
+				{
+					"key": "libfontconfig1_2.14.1-4_i386",
+					"name": "libfontconfig1",
+					"version": "2.14.1-4"
+				},
+				{
+					"key": "fontconfig-config_2.14.1-4_i386",
+					"name": "fontconfig-config",
+					"version": "2.14.1-4"
+				},
+				{
+					"key": "fonts-dejavu-core_2.37-6_i386",
+					"name": "fonts-dejavu-core",
+					"version": "2.37-6"
+				},
+				{
+					"key": "debconf_1.5.82_i386",
+					"name": "debconf",
+					"version": "1.5.82"
+				},
+				{
+					"key": "libexpat1_2.5.0-1-p-deb12u2_i386",
+					"name": "libexpat1",
+					"version": "2.5.0-1+deb12u2"
+				},
+				{
+					"key": "libavif15_0.11.1-1-p-deb12u1_i386",
+					"name": "libavif15",
+					"version": "0.11.1-1+deb12u1"
+				},
+				{
+					"key": "libyuv0_0.0_git20230123.b2528b0-1_i386",
+					"name": "libyuv0",
+					"version": "0.0~git20230123.b2528b0-1"
+				},
+				{
+					"key": "librav1e0_0.5.1-6_i386",
+					"name": "librav1e0",
+					"version": "0.5.1-6"
+				},
+				{
+					"key": "libgav1-1_0.18.0-1-p-b1_i386",
+					"name": "libgav1-1",
+					"version": "0.18.0-1+b1"
+				},
+				{
+					"key": "libabsl20220623_20220623.1-1-p-deb12u2_i386",
+					"name": "libabsl20220623",
+					"version": "20220623.1-1+deb12u2"
+				},
+				{
+					"key": "libexif12_0.6.24-1-p-deb12u1_i386",
+					"name": "libexif12",
+					"version": "0.6.24-1+deb12u1"
+				},
+				{
+					"key": "libcurl4_7.88.1-10-p-deb12u15_i386",
+					"name": "libcurl4",
+					"version": "7.88.1-10+deb12u15"
+				},
+				{
+					"key": "libssl3_3.0.20-1_deb12u2_i386",
+					"name": "libssl3",
+					"version": "3.0.20-1~deb12u2"
+				},
+				{
+					"key": "libssh2-1_1.10.0-3-p-b1_i386",
+					"name": "libssh2-1",
+					"version": "1.10.0-3+b1"
+				},
+				{
+					"key": "librtmp1_2.4-p-20151223.gitfa8646d.1-2-p-b2_i386",
+					"name": "librtmp1",
+					"version": "2.4+20151223.gitfa8646d.1-2+b2"
+				},
+				{
+					"key": "libnettle8_3.8.1-2_i386",
+					"name": "libnettle8",
+					"version": "3.8.1-2"
+				},
+				{
+					"key": "libhogweed6_3.8.1-2_i386",
+					"name": "libhogweed6",
+					"version": "3.8.1-2"
+				},
+				{
+					"key": "libgmp10_2-6.2.1-p-dfsg1-1.1_i386",
+					"name": "libgmp10",
+					"version": "2:6.2.1+dfsg1-1.1"
+				},
+				{
+					"key": "libgnutls30_3.7.9-2-p-deb12u7_i386",
+					"name": "libgnutls30",
+					"version": "3.7.9-2+deb12u7"
+				},
+				{
+					"key": "libunistring2_1.0-2_i386",
+					"name": "libunistring2",
+					"version": "1.0-2"
+				},
+				{
+					"key": "libtasn1-6_4.19.0-2-p-deb12u1_i386",
+					"name": "libtasn1-6",
+					"version": "4.19.0-2+deb12u1"
+				},
+				{
+					"key": "libp11-kit0_0.24.1-2_i386",
+					"name": "libp11-kit0",
+					"version": "0.24.1-2"
+				},
+				{
+					"key": "libidn2-0_2.3.3-1-p-b1_i386",
+					"name": "libidn2-0",
+					"version": "2.3.3-1+b1"
+				},
+				{
+					"key": "libpsl5_0.21.2-1_i386",
+					"name": "libpsl5",
+					"version": "0.21.2-1"
+				},
+				{
+					"key": "libnghttp2-14_1.52.0-1-p-deb12u3_i386",
+					"name": "libnghttp2-14",
+					"version": "1.52.0-1+deb12u3"
+				},
+				{
+					"key": "libldap-2.5-0_2.5.13-p-dfsg-5_i386",
+					"name": "libldap-2.5-0",
+					"version": "2.5.13+dfsg-5"
+				},
+				{
+					"key": "libsasl2-2_2.1.28-p-dfsg-10_i386",
+					"name": "libsasl2-2",
+					"version": "2.1.28+dfsg-10"
+				},
+				{
+					"key": "libsasl2-modules-db_2.1.28-p-dfsg-10_i386",
+					"name": "libsasl2-modules-db",
+					"version": "2.1.28+dfsg-10"
+				},
+				{
+					"key": "libdb5.3_5.3.28-p-dfsg2-1_i386",
+					"name": "libdb5.3",
+					"version": "5.3.28+dfsg2-1"
+				},
+				{
+					"key": "libgssapi-krb5-2_1.20.1-2-p-deb12u5_i386",
+					"name": "libgssapi-krb5-2",
+					"version": "1.20.1-2+deb12u5"
+				},
+				{
+					"key": "libkrb5support0_1.20.1-2-p-deb12u5_i386",
+					"name": "libkrb5support0",
+					"version": "1.20.1-2+deb12u5"
+				},
+				{
+					"key": "libkrb5-3_1.20.1-2-p-deb12u5_i386",
+					"name": "libkrb5-3",
+					"version": "1.20.1-2+deb12u5"
+				},
+				{
+					"key": "libkeyutils1_1.6.3-2_i386",
+					"name": "libkeyutils1",
+					"version": "1.6.3-2"
+				},
+				{
+					"key": "libk5crypto3_1.20.1-2-p-deb12u5_i386",
+					"name": "libk5crypto3",
+					"version": "1.20.1-2+deb12u5"
+				},
+				{
+					"key": "libcom-err2_1.47.0-2-p-b2_i386",
+					"name": "libcom-err2",
+					"version": "1.47.0-2+b2"
+				},
+				{
+					"key": "libcapi20-3_1-3.27-3-p-b1_i386",
+					"name": "libcapi20-3",
+					"version": "1:3.27-3+b1"
+				},
+				{
+					"key": "libasound2_1.2.8-1-p-b1_i386",
+					"name": "libasound2",
+					"version": "1.2.8-1+b1"
+				},
+				{
+					"key": "libasound2-data_1.2.8-1_i386",
+					"name": "libasound2-data",
+					"version": "1.2.8-1"
+				}
+			],
+			"key": "wine_8.0_repack-4_i386",
+			"name": "wine",
+			"sha256": "79672e2f542c450fe7e7a16a930ac8787fcfa804d29c2bf37e3d33297dbe60b0",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/w/wine/wine_8.0~repack-4_all.deb"
+			],
+			"version": "8.0~repack-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "wine32_8.0_repack-4_i386",
+			"name": "wine32",
+			"sha256": "8d2ea88c4f45e813401e10f139456098f21a9a68440b36ea0da4644a2cbe21f8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/w/wine/wine32_8.0~repack-4_i386.deb"
+			],
+			"version": "8.0~repack-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libwine_8.0_repack-4_i386",
+			"name": "libwine",
+			"sha256": "c992aad6a47d81b719514f5d06c5df10267f1e40a6f4f3b4e3f655cbbf308d57",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/w/wine/libwine_8.0~repack-4_i386.deb"
+			],
+			"version": "8.0~repack-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libz-mingw-w64_1.2.13-p-dfsg-1_i386",
+			"name": "libz-mingw-w64",
+			"sha256": "b9e73ca486bc2aa66da86b5724220d2dd7c8299636b1df74c3414757a2170615",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libz/libz-mingw-w64/libz-mingw-w64_1.2.13+dfsg-1_all.deb"
+			],
+			"version": "1.2.13+dfsg-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "ocl-icd-libopencl1_2.3.1-1_i386",
+			"name": "ocl-icd-libopencl1",
+			"sha256": "18be5fb67320c3b7f699b14826d6ca6fd70662d150a3945a6be180e4018ae0a5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/o/ocl-icd/ocl-icd-libopencl1_2.3.1-1_i386.deb"
+			],
+			"version": "2.3.1-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libc6_2.36-9-p-deb12u14_i386",
+			"name": "libc6",
+			"sha256": "76b12e06be66ec3fc2c1791d7d8cf34c2b828ed210e3913feeeb8edc9688f820",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/glibc/libc6_2.36-9+deb12u14_i386.deb"
+			],
+			"version": "2.36-9+deb12u14"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgcc-s1_12.2.0-14-p-deb12u1_i386",
+			"name": "libgcc-s1",
+			"sha256": "56b95a550b342418f6c4765d5c9b08df2c7167134767e44f1f1bc82ced363ece",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/gcc-12/libgcc-s1_12.2.0-14+deb12u1_i386.deb"
+			],
+			"version": "12.2.0-14+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "gcc-12-base_12.2.0-14-p-deb12u1_i386",
+			"name": "gcc-12-base",
+			"sha256": "611c6f95b952c021a9cb3e02d8c10d0bdbf20c318be567a95fb79d8a44521844",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/gcc-12/gcc-12-base_12.2.0-14+deb12u1_i386.deb"
+			],
+			"version": "12.2.0-14+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxext6_2-1.3.4-1-p-b1_i386",
+			"name": "libxext6",
+			"sha256": "ebb222c1d9c1fbb98d1663e8f18f7b9fd4747133494cec8c566a86037c5f26cf",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxext/libxext6_1.3.4-1+b1_i386.deb"
+			],
+			"version": "2:1.3.4-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libx11-6_2-1.8.4-2-p-deb12u2_i386",
+			"name": "libx11-6",
+			"sha256": "df42dab90a6f0d064ba0aa9f0857056021b1d0c37c82ac495b83a953a5e52799",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libx/libx11/libx11-6_1.8.4-2+deb12u2_i386.deb"
+			],
+			"version": "2:1.8.4-2+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libx11-data_2-1.8.4-2-p-deb12u2_i386",
+			"name": "libx11-data",
+			"sha256": "987a848aeb1c358e4186368871b0526f10bb14c6b53214ab3bf8b69abb830191",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libx/libx11/libx11-data_1.8.4-2+deb12u2_all.deb"
+			],
+			"version": "2:1.8.4-2+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb1_1.15-1_i386",
+			"name": "libxcb1",
+			"sha256": "58eac13b8d4614a9804b8fbfd8090a4da725ee70ebda435cb807144348d8a216",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb1_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxdmcp6_1-1.1.2-3_i386",
+			"name": "libxdmcp6",
+			"sha256": "186935868181faae5f7956ab250a7a135b28d139d163a575050ad31bbfd56e33",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxdmcp/libxdmcp6_1.1.2-3_i386.deb"
+			],
+			"version": "1:1.1.2-3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libbsd0_0.11.7-2_i386",
+			"name": "libbsd0",
+			"sha256": "527d1696a70421227c3de01a82a3eceaeb9f78a927eac0d8a1b41924199bf48b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libb/libbsd/libbsd0_0.11.7-2_i386.deb"
+			],
+			"version": "0.11.7-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libmd0_1.0.4-2_i386",
+			"name": "libmd0",
+			"sha256": "5416c6fcbfb73c21d1e7bf1aeeb3d7efc1d6cf7274c2332ec9d5648d04e5d0ca",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libm/libmd/libmd0_1.0.4-2_i386.deb"
+			],
+			"version": "1.0.4-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxau6_1-1.0.9-1_i386",
+			"name": "libxau6",
+			"sha256": "3003e98e7ecef061ec2f1df1fc106f55b9c051469bc2ab4be743b85851ea7d25",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxau/libxau6_1.0.9-1_i386.deb"
+			],
+			"version": "1:1.0.9-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libusb-1.0-0_2-1.0.26-1_i386",
+			"name": "libusb-1.0-0",
+			"sha256": "c4e1a66b847160bd3826d5e5e66c86e0b8aafdfe9b29802831068e242080fab5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libu/libusb-1.0/libusb-1.0-0_1.0.26-1_i386.deb"
+			],
+			"version": "2:1.0.26-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libudev1_252.39-1_deb12u2_i386",
+			"name": "libudev1",
+			"sha256": "4c7b427632d2ce9ac822cb00a8376e79edbe42dadc0414629de27885e82d13df",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/s/systemd/libudev1_252.39-1~deb12u2_i386.deb"
+			],
+			"version": "252.39-1~deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpulse0_16.1-p-dfsg1-2-p-b1_i386",
+			"name": "libpulse0",
+			"sha256": "fc8cac04e3cd077b70f94eb1fd6cd42b4c5f7aae27cda7bc0c5bcea307537056",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/p/pulseaudio/libpulse0_16.1+dfsg1-2+b1_i386.deb"
+			],
+			"version": "16.1+dfsg1-2+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libx11-xcb1_2-1.8.4-2-p-deb12u2_i386",
+			"name": "libx11-xcb1",
+			"sha256": "4d96d62f7204767e68d936648c70e717f6d5915b03f74ee159140111dbd0062c",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libx/libx11/libx11-xcb1_1.8.4-2+deb12u2_i386.deb"
+			],
+			"version": "2:1.8.4-2+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libelogind0_246.10-1debian1_i386",
+			"name": "libelogind0",
+			"sha256": "2bf9c1ea90cf7494ff148450f3287187232a2c63fab87b50b7b1bdcaa8f75140",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/e/elogind/libelogind0_246.10-1debian1_i386.deb"
+			],
+			"version": "246.10-1debian1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcap2_1-2.66-4-p-deb12u3-p-b1_i386",
+			"name": "libcap2",
+			"sha256": "ec2df8503ee282fa5ca129cb0272bb2b0c05b9969aa8568bca567ab62bca15ad",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libc/libcap2/libcap2_2.66-4+deb12u3+b1_i386.deb"
+			],
+			"version": "1:2.66-4+deb12u3+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsndfile1_1.2.0-1-p-deb12u1_i386",
+			"name": "libsndfile1",
+			"sha256": "6cf51c091b37c866d9a7aa0bb5011c1e93546cff6fc96827aaaf906eedc7fbd5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libs/libsndfile/libsndfile1_1.2.0-1+deb12u1_i386.deb"
+			],
+			"version": "1.2.0-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libvorbisenc2_1.3.7-1_i386",
+			"name": "libvorbisenc2",
+			"sha256": "04de77bb41d5062f135ebebf210f8f558080a4c5b8ba9cc216883c957207fb7e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libv/libvorbis/libvorbisenc2_1.3.7-1_i386.deb"
+			],
+			"version": "1.3.7-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libvorbis0a_1.3.7-1_i386",
+			"name": "libvorbis0a",
+			"sha256": "56bb3970d0a9fbf07c6d027b8ab8fecd386b47e14bce7fb3e2ac93a0abe7f7d7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libv/libvorbis/libvorbis0a_1.3.7-1_i386.deb"
+			],
+			"version": "1.3.7-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libogg0_1.3.5-3_i386",
+			"name": "libogg0",
+			"sha256": "2914d7e7a37d8e82339cebc43b0b4f71b561623dceb5ebe12156837e3de86318",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libo/libogg/libogg0_1.3.5-3_i386.deb"
+			],
+			"version": "1.3.5-3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libopus0_1.3.1-3_i386",
+			"name": "libopus0",
+			"sha256": "eec578cb2f9e67fdbd08ee21d187f19ae6698494dfc46e71d2f7ba231d561f71",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/o/opus/libopus0_1.3.1-3_i386.deb"
+			],
+			"version": "1.3.1-3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libmpg123-0_1.31.2-1-p-deb12u1_i386",
+			"name": "libmpg123-0",
+			"sha256": "7a7c29b2882a05610f89091ceff67773ec79d6558294226c1905b0a833430428",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/m/mpg123/libmpg123-0_1.31.2-1+deb12u1_i386.deb"
+			],
+			"version": "1.31.2-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libmp3lame0_3.100-6_i386",
+			"name": "libmp3lame0",
+			"sha256": "fdc9724815021ee8181e1aac46b52d1498a9d1ffc6dd98bb115b8c1dfe2ec1a3",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/l/lame/libmp3lame0_3.100-6_i386.deb"
+			],
+			"version": "3.100-6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libflac12_1.4.2-p-ds-2_i386",
+			"name": "libflac12",
+			"sha256": "b321d509ffd07118debf00ed5683a028ce13922842d7c2650598d7c60841fa5b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/f/flac/libflac12_1.4.2+ds-2_i386.deb"
+			],
+			"version": "1.4.2+ds-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdbus-1-3_1.14.10-1_deb12u1_i386",
+			"name": "libdbus-1-3",
+			"sha256": "aaed4e79c1efdf58ee6b43d179a9cf07cd44fc5826eecfb5fcb37c96d5be6ad5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/d/dbus/libdbus-1-3_1.14.10-1~deb12u1_i386.deb"
+			],
+			"version": "1.14.10-1~deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libasyncns0_0.8-6-p-b3_i386",
+			"name": "libasyncns0",
+			"sha256": "de353333e0bec51306ee6b12c309693dd2108d25b69e60b70bd1c639c1376cde",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/liba/libasyncns/libasyncns0_0.8-6+b3_i386.deb"
+			],
+			"version": "0.8-6+b3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpcap0.8_1.10.3-1_i386",
+			"name": "libpcap0.8",
+			"sha256": "63d4d9603c9f993dd5d878a06f2755601e75735ea6558080b11a743bb3dae390",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libp/libpcap/libpcap0.8_1.10.3-1_i386.deb"
+			],
+			"version": "1.10.3-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgstreamer1.0-0_1.22.0-2-p-deb12u1_i386",
+			"name": "libgstreamer1.0-0",
+			"sha256": "a5b8d9d3d967199c21a316a2533ee9891deb0defe4593c93d1ca569b0e5a89a6",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/g/gstreamer1.0/libgstreamer1.0-0_1.22.0-2+deb12u1_i386.deb"
+			],
+			"version": "1.22.0-2+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcap2-bin_1-2.66-4-p-deb12u3-p-b1_i386",
+			"name": "libcap2-bin",
+			"sha256": "9137ceadd9c7f0e4a57c994aae3a2c4192a1db58535bd687cdb1abe38130ff01",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libc/libcap2/libcap2-bin_2.66-4+deb12u3+b1_i386.deb"
+			],
+			"version": "1:2.66-4+deb12u3+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libunwind8_1.6.2-3_i386",
+			"name": "libunwind8",
+			"sha256": "39d3ddf6f813d3137f70fc3c05f6cfb6b3ad17251430df7cef7463b1adf6d29a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libu/libunwind/libunwind8_1.6.2-3_i386.deb"
+			],
+			"version": "1.6.2-3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "liblzma5_5.4.1-1-p-deb12u1_i386",
+			"name": "liblzma5",
+			"sha256": "5b3fb8a53da0f5b1ec1181be94d39a8508db02465ec4421df12ad4c0d76924f3",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/xz-utils/liblzma5_5.4.1-1+deb12u1_i386.deb"
+			],
+			"version": "5.4.1-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libglib2.0-0_2.74.6-2-p-deb12u9_i386",
+			"name": "libglib2.0-0",
+			"sha256": "b29fac9486146be26bc1bc9bacd2d0ba86874856594fa2bba84a3e395f880d68",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/glib2.0/libglib2.0-0_2.74.6-2+deb12u9_i386.deb"
+			],
+			"version": "2.74.6-2+deb12u9"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "zlib1g_1-1.2.13.dfsg-1_i386",
+			"name": "zlib1g",
+			"sha256": "3ca84a1245347652b7e1f8694db222851f7f1e7060515b21e1439b0cf84f96e1",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/z/zlib/zlib1g_1.2.13.dfsg-1_i386.deb"
+			],
+			"version": "1:1.2.13.dfsg-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libselinux1_3.4-1-p-b6_i386",
+			"name": "libselinux1",
+			"sha256": "1af838cdb8342802e3fdbf334f75c42d3027246bcec72f2c2ca26a996014f143",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libs/libselinux/libselinux1_3.4-1+b6_i386.deb"
+			],
+			"version": "3.4-1+b6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpcre2-8-0_10.42-1_i386",
+			"name": "libpcre2-8-0",
+			"sha256": "f5485ecd3a5ba7bdb7de1cb502165f20fd7e1f7b9a4988ab7bdb89c58aa1596b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/p/pcre2/libpcre2-8-0_10.42-1_i386.deb"
+			],
+			"version": "10.42-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libmount1_2.38.1-5-p-deb12u3_i386",
+			"name": "libmount1",
+			"sha256": "fea906e66b4b5c2f3cd6b3563f813e3cf7b3e007f21fd14101a99ab9f2451efb",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/u/util-linux/libmount1_2.38.1-5+deb12u3_i386.deb"
+			],
+			"version": "2.38.1-5+deb12u3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libblkid1_2.38.1-5-p-deb12u3_i386",
+			"name": "libblkid1",
+			"sha256": "239ced602de059f88a86cde6af38fb0fc6a3193a3937c8e624c9d0c60831d430",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/u/util-linux/libblkid1_2.38.1-5+deb12u3_i386.deb"
+			],
+			"version": "2.38.1-5+deb12u3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libffi8_3.4.4-1_i386",
+			"name": "libffi8",
+			"sha256": "21b4d7de1cea73aa8d594106e473c1c6b6f33fd11cb66af5db35f9317f5f9a60",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libf/libffi/libffi8_3.4.4-1_i386.deb"
+			],
+			"version": "3.4.4-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdw1_0.188-2.1_i386",
+			"name": "libdw1",
+			"sha256": "48f28edaf9e23ed61747bd2d417dc0a4b577bef85bbed28c5d07f8be8e5312c5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/e/elfutils/libdw1_0.188-2.1_i386.deb"
+			],
+			"version": "0.188-2.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libelf1_0.188-2.1_i386",
+			"name": "libelf1",
+			"sha256": "d55c01c10209b1746e6637449357d3feb3de8c8b0102d8286553a07260d718c2",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/e/elfutils/libelf1_0.188-2.1_i386.deb"
+			],
+			"version": "0.188-2.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libbz2-1.0_1.0.8-5-p-b1_i386",
+			"name": "libbz2-1.0",
+			"sha256": "275c8f3e8d82f0c58f286e7ec0ca3001380895906be1f1f5b4d929f4469a54a2",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/b/bzip2/libbz2-1.0_1.0.8-5+b1_i386.deb"
+			],
+			"version": "1.0.8-5+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgstreamer-plugins-base1.0-0_1.22.0-3-p-deb12u6_i386",
+			"name": "libgstreamer-plugins-base1.0-0",
+			"sha256": "9a8802e06368d90a8251debfdebb663404d5751b8bf8bcbfaa9f65539a5de281",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/g/gst-plugins-base1.0/libgstreamer-plugins-base1.0-0_1.22.0-3+deb12u6_i386.deb"
+			],
+			"version": "1.22.0-3+deb12u6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "iso-codes_4.15.0-1_i386",
+			"name": "iso-codes",
+			"sha256": "b1beb869303229c38288d4ddacfd582c91f594759b5767c9cecebd87f16ff70e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/i/iso-codes/iso-codes_4.15.0-1_all.deb"
+			],
+			"version": "4.15.0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "liborc-0.4-0_1-0.4.33-2_i386",
+			"name": "liborc-0.4-0",
+			"sha256": "60f4342f9ddd8b65de91bb7c66fb8c711b04db8ba309aadb04a91bc023b29c52",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/o/orc/liborc-0.4-0_0.4.33-2_i386.deb"
+			],
+			"version": "1:0.4.33-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgphoto2-port12_2.5.30-1_i386",
+			"name": "libgphoto2-port12",
+			"sha256": "be2b6827dd97ede0c41ceb7384f492003bad675260e0c3b7f308857d37a22d97",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libgphoto2/libgphoto2-port12_2.5.30-1_i386.deb"
+			],
+			"version": "2.5.30-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libltdl7_2.4.7-7_deb12u1_i386",
+			"name": "libltdl7",
+			"sha256": "82f6171fe2adf0f50e184d7072ddb407645f0f27fc1b0cad90032680bae3317f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libt/libtool/libltdl7_2.4.7-7~deb12u1_i386.deb"
+			],
+			"version": "2.4.7-7~deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgphoto2-6_2.5.30-1_i386",
+			"name": "libgphoto2-6",
+			"sha256": "ee22cfb639671abe2ae6b0cf2d9be03af5d559eddd912392fe9ec19db531559e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libgphoto2/libgphoto2-6_2.5.30-1_i386.deb"
+			],
+			"version": "2.5.30-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxml2_2.9.14-p-dfsg-1.3_deb12u6_i386",
+			"name": "libxml2",
+			"sha256": "56e525a42ebec9e88ebcbf352c72d98dc0536557dc3459fce97f3e28d8ec89df",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_i386.deb"
+			],
+			"version": "2.9.14+dfsg-1.3~deb12u6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libicu72_72.1-3-p-deb12u1_i386",
+			"name": "libicu72",
+			"sha256": "4c64bdd09608dfa525f41f5988f371c32a88eab33da425c83a6d41d5b4c95501",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/i/icu/libicu72_72.1-3+deb12u1_i386.deb"
+			],
+			"version": "72.1-3+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libstdc-p--p-6_12.2.0-14-p-deb12u1_i386",
+			"name": "libstdc++6",
+			"sha256": "a262f9ad4e4b4adcb6a2663051e36e6c117159b048ae7ce8d4af215e90de3e5e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/gcc-12/libstdc++6_12.2.0-14+deb12u1_i386.deb"
+			],
+			"version": "12.2.0-14+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libjpeg62-turbo_1-2.1.5-2_i386",
+			"name": "libjpeg62-turbo",
+			"sha256": "3c42ca19e27311d692eb97df6b42f1cedc5543896ad428562c4c226932726c00",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libj/libjpeg-turbo/libjpeg62-turbo_2.1.5-2_i386.deb"
+			],
+			"version": "1:2.1.5-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgd3_2.3.3-9_i386",
+			"name": "libgd3",
+			"sha256": "b299550916f79e05d3bb9e5b4d24b1f655f48f40d877cecb475d456f325e76c1",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libgd2/libgd3_2.3.3-9_i386.deb"
+			],
+			"version": "2.3.3-9"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxpm4_1-3.5.12-1.1-p-deb12u1_i386",
+			"name": "libxpm4",
+			"sha256": "62b0c9721c00484db846829c83bce3fb6589df2915ef2cce6b8db4bce1b32528",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libx/libxpm/libxpm4_3.5.12-1.1+deb12u1_i386.deb"
+			],
+			"version": "1:3.5.12-1.1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libwebp7_1.2.4-0.2-p-deb12u1_i386",
+			"name": "libwebp7",
+			"sha256": "b596ae0e0f830a514e3b26451b2c3404074ed3cc677799a588c0ed38952db4e8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libw/libwebp/libwebp7_1.2.4-0.2+deb12u1_i386.deb"
+			],
+			"version": "1.2.4-0.2+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libtiff6_4.5.0-6-p-deb12u4_i386",
+			"name": "libtiff6",
+			"sha256": "979d70a53d2c3aaa5e490748a9d61d638d0a692c2c3ce02ec833b51e3bbb3d08",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/t/tiff/libtiff6_4.5.0-6+deb12u4_i386.deb"
+			],
+			"version": "4.5.0-6+deb12u4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libzstd1_1.5.4-p-dfsg2-5_i386",
+			"name": "libzstd1",
+			"sha256": "b9009648837c1fa095ca3b79eec3e6358df3946dd0a70c0f66ec3558695af8d5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libz/libzstd/libzstd1_1.5.4+dfsg2-5_i386.deb"
+			],
+			"version": "1.5.4+dfsg2-5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "liblerc4_4.0.0-p-ds-2_i386",
+			"name": "liblerc4",
+			"sha256": "c966a773ef469a0a079fbfde9d58cdb88fc2cf26e91e1b5442af8bd16658603a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/l/lerc/liblerc4_4.0.0+ds-2_i386.deb"
+			],
+			"version": "4.0.0+ds-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libjbig0_2.1-6.1_i386",
+			"name": "libjbig0",
+			"sha256": "54a64993ef415f1332ee4f66552b9dd823aeb566ea19dfad1dc6cd9068cedc7c",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/j/jbigkit/libjbig0_2.1-6.1_i386.deb"
+			],
+			"version": "2.1-6.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdeflate0_1.14-1_i386",
+			"name": "libdeflate0",
+			"sha256": "b55625c3f1c39e3a76e545198b68e773aff4dcc94a6e41aa889a24c1f4df9ad4",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdeflate/libdeflate0_1.14-1_i386.deb"
+			],
+			"version": "1.14-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpng16-16_1.6.39-2-p-deb12u5_i386",
+			"name": "libpng16-16",
+			"sha256": "6b18ebe0faab22a7cb6d031bc3dffb9c572277c6501ca7b51fbe480a90b2b4da",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libp/libpng1.6/libpng16-16_1.6.39-2+deb12u5_i386.deb"
+			],
+			"version": "1.6.39-2+deb12u5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libheif1_1.15.1-1-p-deb12u1_i386",
+			"name": "libheif1",
+			"sha256": "68780d6dd62e85b4438393ea05b2a8bca191961dc9d81accbf23ae90fef5ec0f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libh/libheif/libheif1_1.15.1-1+deb12u1_i386.deb"
+			],
+			"version": "1.15.1-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libx265-199_3.5-2-p-b1_i386",
+			"name": "libx265-199",
+			"sha256": "9c4e46ac08327620715c63c33acb5cd54bf4a2496673928f46a865b38e5c939d",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/x265/libx265-199_3.5-2+b1_i386.deb"
+			],
+			"version": "3.5-2+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libnuma1_2.0.16-1_i386",
+			"name": "libnuma1",
+			"sha256": "659aafdccfbcf061f79c8bc0b3658b0c57cff0d5117fb06ad82937403b7e99e9",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/n/numactl/libnuma1_2.0.16-1_i386.deb"
+			],
+			"version": "2.0.16-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libde265-0_1.0.11-1-p-deb12u2_i386",
+			"name": "libde265-0",
+			"sha256": "b3ee7973af4565fefa38d3e40588978b4648022e1e60675454f837ddc227380a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libde265/libde265-0_1.0.11-1+deb12u2_i386.deb"
+			],
+			"version": "1.0.11-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdav1d6_1.0.0-2-p-deb12u1_i386",
+			"name": "libdav1d6",
+			"sha256": "5ca851c78211f456f25ad98a2011e9e9c631e3591e1a6032b457fa88ec55de75",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/d/dav1d/libdav1d6_1.0.0-2+deb12u1_i386.deb"
+			],
+			"version": "1.0.0-2+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libaom3_3.6.0-1-p-deb12u2_i386",
+			"name": "libaom3",
+			"sha256": "e87de8ae06ba38dc5e67dcab04458d512da7bb2efdb921dfc642a57e1d3a4b02",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/aom/libaom3_3.6.0-1+deb12u2_i386.deb"
+			],
+			"version": "3.6.0-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libfreetype6_2.12.1-p-dfsg-5-p-deb12u4_i386",
+			"name": "libfreetype6",
+			"sha256": "5945f490940c8c7dd5054aa58a0fdeac5b362ce0ef648e9cce1d7b68a0914fc7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/f/freetype/libfreetype6_2.12.1+dfsg-5+deb12u4_i386.deb"
+			],
+			"version": "2.12.1+dfsg-5+deb12u4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libbrotli1_1.0.9-2-p-b6_i386",
+			"name": "libbrotli1",
+			"sha256": "75b14942a601dbac638595a9d827f91c12a9f95fb7503f2dc5471fcf57bd4bc1",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/b/brotli/libbrotli1_1.0.9-2+b6_i386.deb"
+			],
+			"version": "1.0.9-2+b6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libfontconfig1_2.14.1-4_i386",
+			"name": "libfontconfig1",
+			"sha256": "f581ad1f64c1efadd4df10bb09d7e1a036c7df0db3fde325c941a149a829216f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/f/fontconfig/libfontconfig1_2.14.1-4_i386.deb"
+			],
+			"version": "2.14.1-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "fontconfig-config_2.14.1-4_i386",
+			"name": "fontconfig-config",
+			"sha256": "33e9236d3c8e11a0cdb3d1982d2461a1186734cf399706ed1573e741743a4be7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/f/fontconfig/fontconfig-config_2.14.1-4_i386.deb"
+			],
+			"version": "2.14.1-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "fonts-dejavu-core_2.37-6_i386",
+			"name": "fonts-dejavu-core",
+			"sha256": "8892669e51aab4dc56682c8e39d8ddb7d70fad83c369344e1e240bf3ca22bb76",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/f/fonts-dejavu/fonts-dejavu-core_2.37-6_all.deb"
+			],
+			"version": "2.37-6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "debconf_1.5.82_i386",
+			"name": "debconf",
+			"sha256": "74ab14194a3762b2fc717917dcfda42929ab98e3c59295a063344dc551cd7cc8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/d/debconf/debconf_1.5.82_all.deb"
+			],
+			"version": "1.5.82"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libexpat1_2.5.0-1-p-deb12u2_i386",
+			"name": "libexpat1",
+			"sha256": "002fa75e3acfa317aee466c83e4f709db027d25110d2c548fd9483e196e3659d",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/e/expat/libexpat1_2.5.0-1+deb12u2_i386.deb"
+			],
+			"version": "2.5.0-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libavif15_0.11.1-1-p-deb12u1_i386",
+			"name": "libavif15",
+			"sha256": "794d8a37e70dad0e8aeb25c1e1cb2881b103947b482b482b3cf577fb5aa94436",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/liba/libavif/libavif15_0.11.1-1+deb12u1_i386.deb"
+			],
+			"version": "0.11.1-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libyuv0_0.0_git20230123.b2528b0-1_i386",
+			"name": "libyuv0",
+			"sha256": "3e26086ac15f3f579eb55ac04d33d47ac190c3b519e269956fc621d01927120b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/liby/libyuv/libyuv0_0.0~git20230123.b2528b0-1_i386.deb"
+			],
+			"version": "0.0~git20230123.b2528b0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "librav1e0_0.5.1-6_i386",
+			"name": "librav1e0",
+			"sha256": "96feeab327bb2c2d522d04e667312375b1213c6df5c5aa2b7822b0da3134a7b7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/r/rust-rav1e/librav1e0_0.5.1-6_i386.deb"
+			],
+			"version": "0.5.1-6"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgav1-1_0.18.0-1-p-b1_i386",
+			"name": "libgav1-1",
+			"sha256": "d2ed27872ae6ad9555bf617dde8d8eb8b8a3d5350f496912a0e3ebc492c82879",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libgav1/libgav1-1_0.18.0-1+b1_i386.deb"
+			],
+			"version": "0.18.0-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libabsl20220623_20220623.1-1-p-deb12u2_i386",
+			"name": "libabsl20220623",
+			"sha256": "a73330a99309ccaa6746709893dd2c068f6e22ef43a860ca57468cdb24abefb3",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/abseil/libabsl20220623_20220623.1-1+deb12u2_i386.deb"
+			],
+			"version": "20220623.1-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libexif12_0.6.24-1-p-deb12u1_i386",
+			"name": "libexif12",
+			"sha256": "6906595caf1df219b2578fc494768ad39d06229c60d8a980cfd0795b7d7e96e5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libe/libexif/libexif12_0.6.24-1+deb12u1_i386.deb"
+			],
+			"version": "0.6.24-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcurl4_7.88.1-10-p-deb12u15_i386",
+			"name": "libcurl4",
+			"sha256": "29e3dc308078ecf8ef9a714f08d227ec7eeae93b48bf30ef2e5322153658b0b0",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/c/curl/libcurl4_7.88.1-10+deb12u15_i386.deb"
+			],
+			"version": "7.88.1-10+deb12u15"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libssl3_3.0.20-1_deb12u2_i386",
+			"name": "libssl3",
+			"sha256": "dd62209dd6c12bb9240f4fab882b7d4e16e7d5f00f31304b8d9c35c5d431b662",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/o/openssl/libssl3_3.0.20-1~deb12u2_i386.deb"
+			],
+			"version": "3.0.20-1~deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libssh2-1_1.10.0-3-p-b1_i386",
+			"name": "libssh2-1",
+			"sha256": "d7af9a5d6e33866d636a750ca647ffc52ec79f6d65726b52695e5cd0b8789250",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libs/libssh2/libssh2-1_1.10.0-3+b1_i386.deb"
+			],
+			"version": "1.10.0-3+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "librtmp1_2.4-p-20151223.gitfa8646d.1-2-p-b2_i386",
+			"name": "librtmp1",
+			"sha256": "1bf3dcb8f2a7c1cff745214e529f93b3353a863f3334e3938aaae25e8a29a9bb",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/r/rtmpdump/librtmp1_2.4+20151223.gitfa8646d.1-2+b2_i386.deb"
+			],
+			"version": "2.4+20151223.gitfa8646d.1-2+b2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libnettle8_3.8.1-2_i386",
+			"name": "libnettle8",
+			"sha256": "3e928be29ce533c1e2d9e1bdf520a2925688b01b329533e71551ebfab7f6a402",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/n/nettle/libnettle8_3.8.1-2_i386.deb"
+			],
+			"version": "3.8.1-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libhogweed6_3.8.1-2_i386",
+			"name": "libhogweed6",
+			"sha256": "d54aad2cf3e5104c80a2ed03511f7502558607df5d535f77e441e13bb26e01a8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/n/nettle/libhogweed6_3.8.1-2_i386.deb"
+			],
+			"version": "3.8.1-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgmp10_2-6.2.1-p-dfsg1-1.1_i386",
+			"name": "libgmp10",
+			"sha256": "996d31008cebdda7acb16431b70b8c2021fd0da544ec643597b172b6a7707e48",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/gmp/libgmp10_6.2.1+dfsg1-1.1_i386.deb"
+			],
+			"version": "2:6.2.1+dfsg1-1.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgnutls30_3.7.9-2-p-deb12u7_i386",
+			"name": "libgnutls30",
+			"sha256": "0018a71515bd08ecb10e88450098414a3d64f264d0986f12e952f0797f4825c2",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/g/gnutls28/libgnutls30_3.7.9-2+deb12u7_i386.deb"
+			],
+			"version": "3.7.9-2+deb12u7"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libunistring2_1.0-2_i386",
+			"name": "libunistring2",
+			"sha256": "04aed8ddaa8f92fcdb378bd92eb23a78bda0f3e3be59501329b1968362492781",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libu/libunistring/libunistring2_1.0-2_i386.deb"
+			],
+			"version": "1.0-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libtasn1-6_4.19.0-2-p-deb12u1_i386",
+			"name": "libtasn1-6",
+			"sha256": "b21b8068b333245ddeaafd2903f55f7b986217e80e060670f21af23b19cf8a04",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libt/libtasn1-6/libtasn1-6_4.19.0-2+deb12u1_i386.deb"
+			],
+			"version": "4.19.0-2+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libp11-kit0_0.24.1-2_i386",
+			"name": "libp11-kit0",
+			"sha256": "f8e5a6f2201eb0317e6149ec95fc08e5c6879fe1247e729e0635dfd9c9f063b3",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/p/p11-kit/libp11-kit0_0.24.1-2_i386.deb"
+			],
+			"version": "0.24.1-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libidn2-0_2.3.3-1-p-b1_i386",
+			"name": "libidn2-0",
+			"sha256": "49167c0ddd749810a5242b60c7e280860f4fbcb7b4ee9ee456f44d97cd5baef5",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libi/libidn2/libidn2-0_2.3.3-1+b1_i386.deb"
+			],
+			"version": "2.3.3-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpsl5_0.21.2-1_i386",
+			"name": "libpsl5",
+			"sha256": "cc87d9aec8ae3804bc408a38cfa73e71c5c6494474635dfc72ecc948df1abed6",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libp/libpsl/libpsl5_0.21.2-1_i386.deb"
+			],
+			"version": "0.21.2-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libnghttp2-14_1.52.0-1-p-deb12u3_i386",
+			"name": "libnghttp2-14",
+			"sha256": "916e76b818492a46e51a632d1d7e5aafacb53fe441acb9f48b2ec399d854cbff",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/n/nghttp2/libnghttp2-14_1.52.0-1+deb12u3_i386.deb"
+			],
+			"version": "1.52.0-1+deb12u3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libldap-2.5-0_2.5.13-p-dfsg-5_i386",
+			"name": "libldap-2.5-0",
+			"sha256": "d295b402f242bb0e11524e02d7bdf98d77da3970f409f2c4924ced3a41bcbca9",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/o/openldap/libldap-2.5-0_2.5.13+dfsg-5_i386.deb"
+			],
+			"version": "2.5.13+dfsg-5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsasl2-2_2.1.28-p-dfsg-10_i386",
+			"name": "libsasl2-2",
+			"sha256": "25ed878313d29fd1466494f81a9240182a272623bf5d1777c59ecd28108359dd",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/c/cyrus-sasl2/libsasl2-2_2.1.28+dfsg-10_i386.deb"
+			],
+			"version": "2.1.28+dfsg-10"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsasl2-modules-db_2.1.28-p-dfsg-10_i386",
+			"name": "libsasl2-modules-db",
+			"sha256": "64fc05a296e61b44356aaaa741115cc15951ffdd4fad0a76a8bfac41d78c17e0",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/c/cyrus-sasl2/libsasl2-modules-db_2.1.28+dfsg-10_i386.deb"
+			],
+			"version": "2.1.28+dfsg-10"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdb5.3_5.3.28-p-dfsg2-1_i386",
+			"name": "libdb5.3",
+			"sha256": "8ddad41cb683c591e4d5444560bdeb628ceec3d605c66a2a17b8bcceb1cf38b7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/d/db5.3/libdb5.3_5.3.28+dfsg2-1_i386.deb"
+			],
+			"version": "5.3.28+dfsg2-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgssapi-krb5-2_1.20.1-2-p-deb12u5_i386",
+			"name": "libgssapi-krb5-2",
+			"sha256": "40da2c7c127d6b3c17ae8990270e7e5b3fd25e78562e12d5806512f9cf200f52",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/k/krb5/libgssapi-krb5-2_1.20.1-2+deb12u5_i386.deb"
+			],
+			"version": "1.20.1-2+deb12u5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libkrb5support0_1.20.1-2-p-deb12u5_i386",
+			"name": "libkrb5support0",
+			"sha256": "8d51bd1c6fa9d3546b28b5c2215eb92cd5fe2085179c37347622b7c5f580ef98",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/k/krb5/libkrb5support0_1.20.1-2+deb12u5_i386.deb"
+			],
+			"version": "1.20.1-2+deb12u5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libkrb5-3_1.20.1-2-p-deb12u5_i386",
+			"name": "libkrb5-3",
+			"sha256": "1f70267f4e6a623efc785dcd24427692afb499951c058d24db95540003b99468",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/k/krb5/libkrb5-3_1.20.1-2+deb12u5_i386.deb"
+			],
+			"version": "1.20.1-2+deb12u5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libkeyutils1_1.6.3-2_i386",
+			"name": "libkeyutils1",
+			"sha256": "124ebf5b8307e2182afaaa166f057144ccc7132e2391164bd86d6c493efc94ef",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/k/keyutils/libkeyutils1_1.6.3-2_i386.deb"
+			],
+			"version": "1.6.3-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libk5crypto3_1.20.1-2-p-deb12u5_i386",
+			"name": "libk5crypto3",
+			"sha256": "2badc281ffa1dc716a701413e01c48ee2b17c73d1e194ee2228b11e6200f4278",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/k/krb5/libk5crypto3_1.20.1-2+deb12u5_i386.deb"
+			],
+			"version": "1.20.1-2+deb12u5"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcom-err2_1.47.0-2-p-b2_i386",
+			"name": "libcom-err2",
+			"sha256": "ccdcdc4211cd85ba9b70f8618c9ba42867254086f0d5c8ef7e257272b1db46a3",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/e/e2fsprogs/libcom-err2_1.47.0-2+b2_i386.deb"
+			],
+			"version": "1.47.0-2+b2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcapi20-3_1-3.27-3-p-b1_i386",
+			"name": "libcapi20-3",
+			"sha256": "d8d94c02603f1dd357ca6b430cdc95e7a2e69570962d3670d6a2ba5a14ce300f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libc/libcapi20-3/libcapi20-3_3.27-3+b1_i386.deb"
+			],
+			"version": "1:3.27-3+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libasound2_1.2.8-1-p-b1_i386",
+			"name": "libasound2",
+			"sha256": "f5257503c01bc56bf089e2f4d75c5d20a9c28fa16fd0a777aa64af8c439f50c8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/alsa-lib/libasound2_1.2.8-1+b1_i386.deb"
+			],
+			"version": "1.2.8-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libasound2-data_1.2.8-1_i386",
+			"name": "libasound2-data",
+			"sha256": "fe0780d2d3674b2977e0acb0d48b448ad72ba1642564b7dc537f55e839984c2d",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/alsa-lib/libasound2-data_1.2.8-1_all.deb"
+			],
+			"version": "1.2.8-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [
+				{
+					"key": "libxfont2_1-2.0.6-1-p-deb12u1_i386",
+					"name": "libxfont2",
+					"version": "1:2.0.6-1+deb12u1"
+				},
+				{
+					"key": "zlib1g_1-1.2.13.dfsg-1_i386",
+					"name": "zlib1g",
+					"version": "1:1.2.13.dfsg-1"
+				},
+				{
+					"key": "libc6_2.36-9-p-deb12u14_i386",
+					"name": "libc6",
+					"version": "2.36-9+deb12u14"
+				},
+				{
+					"key": "libgcc-s1_12.2.0-14-p-deb12u1_i386",
+					"name": "libgcc-s1",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "gcc-12-base_12.2.0-14-p-deb12u1_i386",
+					"name": "gcc-12-base",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libfreetype6_2.12.1-p-dfsg-5-p-deb12u4_i386",
+					"name": "libfreetype6",
+					"version": "2.12.1+dfsg-5+deb12u4"
+				},
+				{
+					"key": "libpng16-16_1.6.39-2-p-deb12u5_i386",
+					"name": "libpng16-16",
+					"version": "1.6.39-2+deb12u5"
+				},
+				{
+					"key": "libbrotli1_1.0.9-2-p-b6_i386",
+					"name": "libbrotli1",
+					"version": "1.0.9-2+b6"
+				},
+				{
+					"key": "libfontenc1_1-1.1.4-1_i386",
+					"name": "libfontenc1",
+					"version": "1:1.1.4-1"
+				},
+				{
+					"key": "libbz2-1.0_1.0.8-5-p-b1_i386",
+					"name": "libbz2-1.0",
+					"version": "1.0.8-5+b1"
+				},
+				{
+					"key": "libxdmcp6_1-1.1.2-3_i386",
+					"name": "libxdmcp6",
+					"version": "1:1.1.2-3"
+				},
+				{
+					"key": "libbsd0_0.11.7-2_i386",
+					"name": "libbsd0",
+					"version": "0.11.7-2"
+				},
+				{
+					"key": "libmd0_1.0.4-2_i386",
+					"name": "libmd0",
+					"version": "1.0.4-2"
+				},
+				{
+					"key": "libxau6_1-1.0.9-1_i386",
+					"name": "libxau6",
+					"version": "1:1.0.9-1"
+				},
+				{
+					"key": "libunwind8_1.6.2-3_i386",
+					"name": "libunwind8",
+					"version": "1.6.2-3"
+				},
+				{
+					"key": "liblzma5_5.4.1-1-p-deb12u1_i386",
+					"name": "liblzma5",
+					"version": "5.4.1-1+deb12u1"
+				},
+				{
+					"key": "libelogind0_246.10-1debian1_i386",
+					"name": "libelogind0",
+					"version": "246.10-1debian1"
+				},
+				{
+					"key": "libcap2_1-2.66-4-p-deb12u3-p-b1_i386",
+					"name": "libcap2",
+					"version": "1:2.66-4+deb12u3+b1"
+				},
+				{
+					"key": "libselinux1_3.4-1-p-b6_i386",
+					"name": "libselinux1",
+					"version": "3.4-1+b6"
+				},
+				{
+					"key": "libpcre2-8-0_10.42-1_i386",
+					"name": "libpcre2-8-0",
+					"version": "10.42-1"
+				},
+				{
+					"key": "libpixman-1-0_0.42.2-1_i386",
+					"name": "libpixman-1-0",
+					"version": "0.42.2-1"
+				},
+				{
+					"key": "libgl1_1.6.0-1_i386",
+					"name": "libgl1",
+					"version": "1.6.0-1"
+				},
+				{
+					"key": "libglx0_1.6.0-1_i386",
+					"name": "libglx0",
+					"version": "1.6.0-1"
+				},
+				{
+					"key": "libglx-mesa0_22.3.6-1-p-deb12u2_i386",
+					"name": "libglx-mesa0",
+					"version": "22.3.6-1+deb12u2"
+				},
+				{
+					"key": "libgl1-mesa-dri_22.3.6-1-p-deb12u2_i386",
+					"name": "libgl1-mesa-dri",
+					"version": "22.3.6-1+deb12u2"
+				},
+				{
+					"key": "libzstd1_1.5.4-p-dfsg2-5_i386",
+					"name": "libzstd1",
+					"version": "1.5.4+dfsg2-5"
+				},
+				{
+					"key": "libxcb-dri3-0_1.15-1_i386",
+					"name": "libxcb-dri3-0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb1_1.15-1_i386",
+					"name": "libxcb1",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libstdc-p--p-6_12.2.0-14-p-deb12u1_i386",
+					"name": "libstdc++6",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libsensors5_1-3.6.0-7.1_i386",
+					"name": "libsensors5",
+					"version": "1:3.6.0-7.1"
+				},
+				{
+					"key": "libsensors-config_1-3.6.0-7.1_i386",
+					"name": "libsensors-config",
+					"version": "1:3.6.0-7.1"
+				},
+				{
+					"key": "libllvm15_1-15.0.6-4-p-b1_i386",
+					"name": "libllvm15",
+					"version": "1:15.0.6-4+b1"
+				},
+				{
+					"key": "libz3-4_4.8.12-3.1_i386",
+					"name": "libz3-4",
+					"version": "4.8.12-3.1"
+				},
+				{
+					"key": "libxml2_2.9.14-p-dfsg-1.3_deb12u6_i386",
+					"name": "libxml2",
+					"version": "2.9.14+dfsg-1.3~deb12u6"
+				},
+				{
+					"key": "libicu72_72.1-3-p-deb12u1_i386",
+					"name": "libicu72",
+					"version": "72.1-3+deb12u1"
+				},
+				{
+					"key": "libtinfo6_6.4-4_i386",
+					"name": "libtinfo6",
+					"version": "6.4-4"
+				},
+				{
+					"key": "libffi8_3.4.4-1_i386",
+					"name": "libffi8",
+					"version": "3.4.4-1"
+				},
+				{
+					"key": "libedit2_3.1-20221030-2_i386",
+					"name": "libedit2",
+					"version": "3.1-20221030-2"
+				},
+				{
+					"key": "libatomic1_12.2.0-14-p-deb12u1_i386",
+					"name": "libatomic1",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libglapi-mesa_22.3.6-1-p-deb12u2_i386",
+					"name": "libglapi-mesa",
+					"version": "22.3.6-1+deb12u2"
+				},
+				{
+					"key": "libexpat1_2.5.0-1-p-deb12u2_i386",
+					"name": "libexpat1",
+					"version": "2.5.0-1+deb12u2"
+				},
+				{
+					"key": "libelf1_0.188-2.1_i386",
+					"name": "libelf1",
+					"version": "0.188-2.1"
+				},
+				{
+					"key": "libdrm2_2.4.114-1-p-b1_i386",
+					"name": "libdrm2",
+					"version": "2.4.114-1+b1"
+				},
+				{
+					"key": "libdrm-common_2.4.114-1_i386",
+					"name": "libdrm-common",
+					"version": "2.4.114-1"
+				},
+				{
+					"key": "libdrm-radeon1_2.4.114-1-p-b1_i386",
+					"name": "libdrm-radeon1",
+					"version": "2.4.114-1+b1"
+				},
+				{
+					"key": "libdrm-nouveau2_2.4.114-1-p-b1_i386",
+					"name": "libdrm-nouveau2",
+					"version": "2.4.114-1+b1"
+				},
+				{
+					"key": "libdrm-intel1_2.4.114-1-p-b1_i386",
+					"name": "libdrm-intel1",
+					"version": "2.4.114-1+b1"
+				},
+				{
+					"key": "libpciaccess0_0.17-2_i386",
+					"name": "libpciaccess0",
+					"version": "0.17-2"
+				},
+				{
+					"key": "libdrm-amdgpu1_2.4.114-1-p-b1_i386",
+					"name": "libdrm-amdgpu1",
+					"version": "2.4.114-1+b1"
+				},
+				{
+					"key": "libxxf86vm1_1-1.1.4-1-p-b2_i386",
+					"name": "libxxf86vm1",
+					"version": "1:1.1.4-1+b2"
+				},
+				{
+					"key": "libxext6_2-1.3.4-1-p-b1_i386",
+					"name": "libxext6",
+					"version": "2:1.3.4-1+b1"
+				},
+				{
+					"key": "libx11-6_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-6",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libx11-data_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-data",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libxshmfence1_1.3-1_i386",
+					"name": "libxshmfence1",
+					"version": "1.3-1"
+				},
+				{
+					"key": "libxfixes3_1-6.0.0-2_i386",
+					"name": "libxfixes3",
+					"version": "1:6.0.0-2"
+				},
+				{
+					"key": "libxcb-xfixes0_1.15-1_i386",
+					"name": "libxcb-xfixes0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-sync1_1.15-1_i386",
+					"name": "libxcb-sync1",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-shm0_1.15-1_i386",
+					"name": "libxcb-shm0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-randr0_1.15-1_i386",
+					"name": "libxcb-randr0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-present0_1.15-1_i386",
+					"name": "libxcb-present0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-glx0_1.15-1_i386",
+					"name": "libxcb-glx0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libxcb-dri2-0_1.15-1_i386",
+					"name": "libxcb-dri2-0",
+					"version": "1.15-1"
+				},
+				{
+					"key": "libx11-xcb1_2-1.8.4-2-p-deb12u2_i386",
+					"name": "libx11-xcb1",
+					"version": "2:1.8.4-2+deb12u2"
+				},
+				{
+					"key": "libglvnd0_1.6.0-1_i386",
+					"name": "libglvnd0",
+					"version": "1.6.0-1"
+				},
+				{
+					"key": "libgcrypt20_1.10.1-3-p-deb12u1_i386",
+					"name": "libgcrypt20",
+					"version": "1.10.1-3+deb12u1"
+				},
+				{
+					"key": "libgpg-error0_1.46-1_i386",
+					"name": "libgpg-error0",
+					"version": "1.46-1"
+				},
+				{
+					"key": "libaudit1_1-3.0.9-1_i386",
+					"name": "libaudit1",
+					"version": "1:3.0.9-1"
+				},
+				{
+					"key": "libcap-ng0_0.8.3-1-p-b3_i386",
+					"name": "libcap-ng0",
+					"version": "0.8.3-1+b3"
+				},
+				{
+					"key": "libaudit-common_1-3.0.9-1_i386",
+					"name": "libaudit-common",
+					"version": "1:3.0.9-1"
+				},
+				{
+					"key": "xserver-common_2-21.1.7-3-p-deb12u12_i386",
+					"name": "xserver-common",
+					"version": "2:21.1.7-3+deb12u12"
+				},
+				{
+					"key": "x11-xkb-utils_7.7-p-7_i386",
+					"name": "x11-xkb-utils",
+					"version": "7.7+7"
+				},
+				{
+					"key": "libxt6_1-1.2.1-1.1_i386",
+					"name": "libxt6",
+					"version": "1:1.2.1-1.1"
+				},
+				{
+					"key": "libsm6_2-1.2.3-1_i386",
+					"name": "libsm6",
+					"version": "2:1.2.3-1"
+				},
+				{
+					"key": "libuuid1_2.38.1-5-p-deb12u3_i386",
+					"name": "libuuid1",
+					"version": "2.38.1-5+deb12u3"
+				},
+				{
+					"key": "libice6_2-1.0.10-1_i386",
+					"name": "libice6",
+					"version": "2:1.0.10-1"
+				},
+				{
+					"key": "x11-common_1-7.7-p-23_i386",
+					"name": "x11-common",
+					"version": "1:7.7+23"
+				},
+				{
+					"key": "sysvinit-utils_3.06-4_i386",
+					"name": "sysvinit-utils",
+					"version": "3.06-4"
+				},
+				{
+					"key": "libxrandr2_2-1.5.2-2-p-b1_i386",
+					"name": "libxrandr2",
+					"version": "2:1.5.2-2+b1"
+				},
+				{
+					"key": "libxrender1_1-0.9.10-1.1_i386",
+					"name": "libxrender1",
+					"version": "1:0.9.10-1.1"
+				},
+				{
+					"key": "libxkbfile1_1-1.1.0-1_i386",
+					"name": "libxkbfile1",
+					"version": "1:1.1.0-1"
+				},
+				{
+					"key": "libxaw7_2-1.0.14-1_i386",
+					"name": "libxaw7",
+					"version": "2:1.0.14-1"
+				},
+				{
+					"key": "libxpm4_1-3.5.12-1.1-p-deb12u1_i386",
+					"name": "libxpm4",
+					"version": "1:3.5.12-1.1+deb12u1"
+				},
+				{
+					"key": "libxmu6_2-1.1.3-3_i386",
+					"name": "libxmu6",
+					"version": "2:1.1.3-3"
+				},
+				{
+					"key": "xkb-data_2.35.1-1_i386",
+					"name": "xkb-data",
+					"version": "2.35.1-1"
+				}
+			],
+			"key": "xvfb_2-21.1.7-3-p-deb12u12_i386",
+			"name": "xvfb",
+			"sha256": "a6db736a743033704d97b20754ad3df8bdd42f89eccc9ee813935d9f63dc0ece",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/xorg-server/xvfb_21.1.7-3+deb12u12_i386.deb"
+			],
+			"version": "2:21.1.7-3+deb12u12"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxfont2_1-2.0.6-1-p-deb12u1_i386",
+			"name": "libxfont2",
+			"sha256": "af742c7f611f7c776eee1e9190b5353cd8e049aa57ca3be1808fb72738109a39",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libx/libxfont/libxfont2_2.0.6-1+deb12u1_i386.deb"
+			],
+			"version": "1:2.0.6-1+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libfontenc1_1-1.1.4-1_i386",
+			"name": "libfontenc1",
+			"sha256": "d1b5277ff60dd4b91e52d72ed3c038708b161562aba2a29b3898e09eef715855",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libf/libfontenc/libfontenc1_1.1.4-1_i386.deb"
+			],
+			"version": "1:1.1.4-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpixman-1-0_0.42.2-1_i386",
+			"name": "libpixman-1-0",
+			"sha256": "bc4bf4f18077e520d676c7fd18b4ae61a39617ca0aba6af4fd2aba735c1f13d0",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/p/pixman/libpixman-1-0_0.42.2-1_i386.deb"
+			],
+			"version": "0.42.2-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgl1_1.6.0-1_i386",
+			"name": "libgl1",
+			"sha256": "56127382186908408be0f87fa009ef6e322e0d6079fd84a4e9135de18949d6f6",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libglvnd/libgl1_1.6.0-1_i386.deb"
+			],
+			"version": "1.6.0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libglx0_1.6.0-1_i386",
+			"name": "libglx0",
+			"sha256": "3c7df84621b49ce93355183041c58a5540e46e35b799209a1fade10a61dfb114",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libglvnd/libglx0_1.6.0-1_i386.deb"
+			],
+			"version": "1.6.0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libglx-mesa0_22.3.6-1-p-deb12u2_i386",
+			"name": "libglx-mesa0",
+			"sha256": "fdd94ac99bcf301b9a85662d216abb813020b0ae64176b35c5026446188fb099",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/m/mesa/libglx-mesa0_22.3.6-1+deb12u2_i386.deb"
+			],
+			"version": "22.3.6-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgl1-mesa-dri_22.3.6-1-p-deb12u2_i386",
+			"name": "libgl1-mesa-dri",
+			"sha256": "59274e06de7ba5866e6b07128224b48c128475a7c47cc97f950d65fee17c4927",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/m/mesa/libgl1-mesa-dri_22.3.6-1+deb12u2_i386.deb"
+			],
+			"version": "22.3.6-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-dri3-0_1.15-1_i386",
+			"name": "libxcb-dri3-0",
+			"sha256": "2142f830d1d7ab016f79e026a13100f6622e113405402a2e02d9dea0ba381e41",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-dri3-0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsensors5_1-3.6.0-7.1_i386",
+			"name": "libsensors5",
+			"sha256": "fd15c95bacd6dfd3cb389296079a9a9abfd66b60af7aed674fe179db2ada869b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/l/lm-sensors/libsensors5_3.6.0-7.1_i386.deb"
+			],
+			"version": "1:3.6.0-7.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsensors-config_1-3.6.0-7.1_i386",
+			"name": "libsensors-config",
+			"sha256": "7f3c9fbd822858a9e30335e4a7f66c9468962eb26cd375b93bc8b789660bf02f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/l/lm-sensors/libsensors-config_3.6.0-7.1_all.deb"
+			],
+			"version": "1:3.6.0-7.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libllvm15_1-15.0.6-4-p-b1_i386",
+			"name": "libllvm15",
+			"sha256": "b892bb1c7c88498f280524917740174cb8d8fab147f682911c8574a3feebac80",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/l/llvm-toolchain-15/libllvm15_15.0.6-4+b1_i386.deb"
+			],
+			"version": "1:15.0.6-4+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libz3-4_4.8.12-3.1_i386",
+			"name": "libz3-4",
+			"sha256": "e8836fe68ad6165e22b215a18a07305a92ef30b86f4cc544052543033d0e3b0a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/z/z3/libz3-4_4.8.12-3.1_i386.deb"
+			],
+			"version": "4.8.12-3.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libtinfo6_6.4-4_i386",
+			"name": "libtinfo6",
+			"sha256": "d6de1d8daeadda8ba57f86d42273919fba9e57f699036b7c51062d91778f4a16",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/n/ncurses/libtinfo6_6.4-4_i386.deb"
+			],
+			"version": "6.4-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libedit2_3.1-20221030-2_i386",
+			"name": "libedit2",
+			"sha256": "e8b738e18c73a6661601452f9689babbee2f524491a15154cbda606b7857b6f8",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libe/libedit/libedit2_3.1-20221030-2_i386.deb"
+			],
+			"version": "3.1-20221030-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libatomic1_12.2.0-14-p-deb12u1_i386",
+			"name": "libatomic1",
+			"sha256": "4c9e99e98b0372160ffcb6ee2548ca2a8e007283b08df3395f0eeca0d2288361",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/g/gcc-12/libatomic1_12.2.0-14+deb12u1_i386.deb"
+			],
+			"version": "12.2.0-14+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libglapi-mesa_22.3.6-1-p-deb12u2_i386",
+			"name": "libglapi-mesa",
+			"sha256": "9d4cb7e86dccdc27220a167708022b1394abb1c4f6587fd919790d4038beeb0c",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/m/mesa/libglapi-mesa_22.3.6-1+deb12u2_i386.deb"
+			],
+			"version": "22.3.6-1+deb12u2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm2_2.4.114-1-p-b1_i386",
+			"name": "libdrm2",
+			"sha256": "33846903c53e3c1a13ae366437286a9e019917f2f3467648ca510d8af31fb59e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm2_2.4.114-1+b1_i386.deb"
+			],
+			"version": "2.4.114-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm-common_2.4.114-1_i386",
+			"name": "libdrm-common",
+			"sha256": "32f9664138b38b224383c6986457d5ad2ec8efd559b1a0ce7749405f7a451aad",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm-common_2.4.114-1_all.deb"
+			],
+			"version": "2.4.114-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm-radeon1_2.4.114-1-p-b1_i386",
+			"name": "libdrm-radeon1",
+			"sha256": "2523ac6b4366999aade876acb846af9bcf90bac826e787c938591dda6f34813d",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm-radeon1_2.4.114-1+b1_i386.deb"
+			],
+			"version": "2.4.114-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm-nouveau2_2.4.114-1-p-b1_i386",
+			"name": "libdrm-nouveau2",
+			"sha256": "b3ed51cf15a315a4771c7030a363fbcd113475b271d5b53fc8b596c3b3e36d39",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm-nouveau2_2.4.114-1+b1_i386.deb"
+			],
+			"version": "2.4.114-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm-intel1_2.4.114-1-p-b1_i386",
+			"name": "libdrm-intel1",
+			"sha256": "3114962de53247c720044dd78263aabefbcf71edb6e5c3bc0c5d20b6e15043ee",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm-intel1_2.4.114-1+b1_i386.deb"
+			],
+			"version": "2.4.114-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libpciaccess0_0.17-2_i386",
+			"name": "libpciaccess0",
+			"sha256": "24b690b1045c2d4403103348abfba74d5d58b5e29da00b798b7bd55d0aa1e28a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libp/libpciaccess/libpciaccess0_0.17-2_i386.deb"
+			],
+			"version": "0.17-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libdrm-amdgpu1_2.4.114-1-p-b1_i386",
+			"name": "libdrm-amdgpu1",
+			"sha256": "35d99e5ace41b687384110e6c714cd48fa210e16410f290b3559f05319305f1f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libd/libdrm/libdrm-amdgpu1_2.4.114-1+b1_i386.deb"
+			],
+			"version": "2.4.114-1+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxxf86vm1_1-1.1.4-1-p-b2_i386",
+			"name": "libxxf86vm1",
+			"sha256": "42f33f431d669d23cdb5912e804f6a694200b4ea51fca6ca283c6a5804a0f9dc",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxxf86vm/libxxf86vm1_1.1.4-1+b2_i386.deb"
+			],
+			"version": "1:1.1.4-1+b2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxshmfence1_1.3-1_i386",
+			"name": "libxshmfence1",
+			"sha256": "828d6a5e40fd9d084770b25ddf37d3e688e0aa7c4e4079913f225d7bb25a33e2",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxshmfence/libxshmfence1_1.3-1_i386.deb"
+			],
+			"version": "1.3-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxfixes3_1-6.0.0-2_i386",
+			"name": "libxfixes3",
+			"sha256": "35539777d881fbff6f93a71571fb065932efa1bf2392cc3a19b33df996352249",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxfixes/libxfixes3_6.0.0-2_i386.deb"
+			],
+			"version": "1:6.0.0-2"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-xfixes0_1.15-1_i386",
+			"name": "libxcb-xfixes0",
+			"sha256": "a2cd10b18bce111a6ebd7a4a1737e35e50cf2c7dd76cd0fed9be5b0f2248063e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-xfixes0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-sync1_1.15-1_i386",
+			"name": "libxcb-sync1",
+			"sha256": "100459b1552d17ed5a32e02d1ef8f6c16814c64a656980155744382fe5b454e9",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-sync1_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-shm0_1.15-1_i386",
+			"name": "libxcb-shm0",
+			"sha256": "c9071375b6e4b672cef68cef9dc6b4fe35fcca1424d1a544a027589aa9dc37b4",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-shm0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-randr0_1.15-1_i386",
+			"name": "libxcb-randr0",
+			"sha256": "d8b9bfb75a1ce0dfa822c06ba62c9db9b995557d8a0f070542690362869ca94a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-randr0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-present0_1.15-1_i386",
+			"name": "libxcb-present0",
+			"sha256": "6160f8121510d59d5b1c1fc7d94695954272205b577dbcf82037c936b40f1974",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-present0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-glx0_1.15-1_i386",
+			"name": "libxcb-glx0",
+			"sha256": "46baab50fae8c6c2c5ce4413c5d81f8710d75cc92e84c43903f83a8039928e51",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-glx0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxcb-dri2-0_1.15-1_i386",
+			"name": "libxcb-dri2-0",
+			"sha256": "035ee3f61661486fa13927a19120de9ddfb08694781db055b113384c8da05e9d",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxcb/libxcb-dri2-0_1.15-1_i386.deb"
+			],
+			"version": "1.15-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libglvnd0_1.6.0-1_i386",
+			"name": "libglvnd0",
+			"sha256": "057b79f23b040f7d7fab1b5ec2d7c027c195c827b8a136d14ee2ab8a513aecf9",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libglvnd/libglvnd0_1.6.0-1_i386.deb"
+			],
+			"version": "1.6.0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgcrypt20_1.10.1-3-p-deb12u1_i386",
+			"name": "libgcrypt20",
+			"sha256": "737d4f16368232608bfa2320fc6a12420062ca43d0b7fce0158d8f49ccd3bc46",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian-security/20260801T000000Z/pool/updates/main/libg/libgcrypt20/libgcrypt20_1.10.1-3+deb12u1_i386.deb"
+			],
+			"version": "1.10.1-3+deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libgpg-error0_1.46-1_i386",
+			"name": "libgpg-error0",
+			"sha256": "9e4109555b4971a2466bdda6fdc3ca90d47a1d0c4b8d7f11ad5720d0e0028392",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libg/libgpg-error/libgpg-error0_1.46-1_i386.deb"
+			],
+			"version": "1.46-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libaudit1_1-3.0.9-1_i386",
+			"name": "libaudit1",
+			"sha256": "2616ac36b3f589332d3ca8b4fafcbdd52b3475f9037d33cbcfebece785b7d6ac",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/audit/libaudit1_3.0.9-1_i386.deb"
+			],
+			"version": "1:3.0.9-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libcap-ng0_0.8.3-1-p-b3_i386",
+			"name": "libcap-ng0",
+			"sha256": "19213eb53138a1c848db34bb8fb0baa8eafcf80bbf90b9141894329b2f1333f2",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libc/libcap-ng/libcap-ng0_0.8.3-1+b3_i386.deb"
+			],
+			"version": "0.8.3-1+b3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libaudit-common_1-3.0.9-1_i386",
+			"name": "libaudit-common",
+			"sha256": "17d0341ca6ce604ce59c296780ac2c2a24141a769823c50669af942c025e6591",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/audit/libaudit-common_3.0.9-1_all.deb"
+			],
+			"version": "1:3.0.9-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "xserver-common_2-21.1.7-3-p-deb12u12_i386",
+			"name": "xserver-common",
+			"sha256": "e233f6e7da5bca45d3bd9757009b3327614fd9098d80bef55aed7c9db2327342",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/xorg-server/xserver-common_21.1.7-3+deb12u12_all.deb"
+			],
+			"version": "2:21.1.7-3+deb12u12"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "x11-xkb-utils_7.7-p-7_i386",
+			"name": "x11-xkb-utils",
+			"sha256": "96e38c6e0cc9a29b0c67567310c424fad670017ae3aac5a6cb8589ba49036b92",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/x11-xkb-utils/x11-xkb-utils_7.7+7_i386.deb"
+			],
+			"version": "7.7+7"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxt6_1-1.2.1-1.1_i386",
+			"name": "libxt6",
+			"sha256": "deb11356dd96774ed75b31cd42d30410991d60048c2cfaf0b087db16556b8863",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxt/libxt6_1.2.1-1.1_i386.deb"
+			],
+			"version": "1:1.2.1-1.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libsm6_2-1.2.3-1_i386",
+			"name": "libsm6",
+			"sha256": "cfbf119e71f44d29ab3074317c2d52edb40ab011c13289d5db2c48395f0d535f",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libs/libsm/libsm6_1.2.3-1_i386.deb"
+			],
+			"version": "2:1.2.3-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libuuid1_2.38.1-5-p-deb12u3_i386",
+			"name": "libuuid1",
+			"sha256": "eb665b48c1a021ee029ce72400623eba45cac853e832f908d72fb48fa428a228",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/u/util-linux/libuuid1_2.38.1-5+deb12u3_i386.deb"
+			],
+			"version": "2.38.1-5+deb12u3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libice6_2-1.0.10-1_i386",
+			"name": "libice6",
+			"sha256": "31a146af05db6925c722ca6411fa0d567d70f42d0392fd02130e74275514990a",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libi/libice/libice6_1.0.10-1_i386.deb"
+			],
+			"version": "2:1.0.10-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "x11-common_1-7.7-p-23_i386",
+			"name": "x11-common",
+			"sha256": "fc97c2f4495eb33a77501c7960928c0d2001e5c4b2aa438f1713e2082c23bacd",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/xorg/x11-common_7.7+23_all.deb"
+			],
+			"version": "1:7.7+23"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "sysvinit-utils_3.06-4_i386",
+			"name": "sysvinit-utils",
+			"sha256": "ee0c29862d479abd54577b78a7514f0f9a080f372a692c8b2aaedab599895235",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/s/sysvinit/sysvinit-utils_3.06-4_i386.deb"
+			],
+			"version": "3.06-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxrandr2_2-1.5.2-2-p-b1_i386",
+			"name": "libxrandr2",
+			"sha256": "1f619d4db7107c0c6344183e5e0254c6ee8d4da74d7ee46f52cdef327354fd4b",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxrandr/libxrandr2_1.5.2-2+b1_i386.deb"
+			],
+			"version": "2:1.5.2-2+b1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxrender1_1-0.9.10-1.1_i386",
+			"name": "libxrender1",
+			"sha256": "5368cbe5f3a78f6518e156536676c3acd7d596d45612c23c1c4bd04f1886e6c7",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxrender/libxrender1_0.9.10-1.1_i386.deb"
+			],
+			"version": "1:0.9.10-1.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxkbfile1_1-1.1.0-1_i386",
+			"name": "libxkbfile1",
+			"sha256": "572c2470218506bacc587fd905b77214add5766b641185748c95c1ad87f534e9",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxkbfile/libxkbfile1_1.1.0-1_i386.deb"
+			],
+			"version": "1:1.1.0-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxaw7_2-1.0.14-1_i386",
+			"name": "libxaw7",
+			"sha256": "ee0dcb8938bc7f2234d4547386b0d1fa720cf2f920fdc64e72b8c759a18660eb",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxaw/libxaw7_1.0.14-1_i386.deb"
+			],
+			"version": "2:1.0.14-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libxmu6_2-1.1.3-3_i386",
+			"name": "libxmu6",
+			"sha256": "07a5ed194525ebd2c1695fba285ce06bd3a6955f779229c3e71b3f9f7b5146dc",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/libx/libxmu/libxmu6_1.1.3-3_i386.deb"
+			],
+			"version": "2:1.1.3-3"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "xkb-data_2.35.1-1_i386",
+			"name": "xkb-data",
+			"sha256": "28a79c61b785f403da93af58c39aed13c022032935e3e54362c6707169cfe982",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/x/xkeyboard-config/xkb-data_2.35.1-1_all.deb"
+			],
+			"version": "2.35.1-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [
+				{
+					"key": "debianutils_5.7-0.5_deb12u1_i386",
+					"name": "debianutils",
+					"version": "5.7-0.5~deb12u1"
+				},
+				{
+					"key": "libc6_2.36-9-p-deb12u14_i386",
+					"name": "libc6",
+					"version": "2.36-9+deb12u14"
+				},
+				{
+					"key": "libgcc-s1_12.2.0-14-p-deb12u1_i386",
+					"name": "libgcc-s1",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "gcc-12-base_12.2.0-14-p-deb12u1_i386",
+					"name": "gcc-12-base",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "base-files_12.4-p-deb12u15_i386",
+					"name": "base-files",
+					"version": "12.4+deb12u15"
+				},
+				{
+					"key": "mawk_1.3.4.20200120-3.1_i386",
+					"name": "mawk",
+					"version": "1.3.4.20200120-3.1"
+				},
+				{
+					"key": "libtinfo6_6.4-4_i386",
+					"name": "libtinfo6",
+					"version": "6.4-4"
+				}
+			],
+			"key": "bash_5.2.15-2-p-b13_i386",
+			"name": "bash",
+			"sha256": "025f4331ef8df81aafb8fd3bd730e10be3604a981df11f2850d2250784609c06",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/b/bash/bash_5.2.15-2+b13_i386.deb"
+			],
+			"version": "5.2.15-2+b13"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "debianutils_5.7-0.5_deb12u1_i386",
+			"name": "debianutils",
+			"sha256": "718d51f15988377a33a7e83ed1190f50e3fd5a027db06c50a2c1aa178f879538",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/d/debianutils/debianutils_5.7-0.5~deb12u1_i386.deb"
+			],
+			"version": "5.7-0.5~deb12u1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "base-files_12.4-p-deb12u15_i386",
+			"name": "base-files",
+			"sha256": "95ab24c65cd128e5773bfa3d41b489dd5158f9081e6b757ac854d3820d721456",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/b/base-files/base-files_12.4+deb12u15_i386.deb"
+			],
+			"version": "12.4+deb12u15"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "mawk_1.3.4.20200120-3.1_i386",
+			"name": "mawk",
+			"sha256": "ee5989ba3a3a5813a49f668e62c211d3ea72d5467683de098d1182cb5bbebd7e",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/m/mawk/mawk_1.3.4.20200120-3.1_i386.deb"
+			],
+			"version": "1.3.4.20200120-3.1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [
+				{
+					"key": "libselinux1_3.4-1-p-b6_i386",
+					"name": "libselinux1",
+					"version": "3.4-1+b6"
+				},
+				{
+					"key": "libpcre2-8-0_10.42-1_i386",
+					"name": "libpcre2-8-0",
+					"version": "10.42-1"
+				},
+				{
+					"key": "libc6_2.36-9-p-deb12u14_i386",
+					"name": "libc6",
+					"version": "2.36-9+deb12u14"
+				},
+				{
+					"key": "libgcc-s1_12.2.0-14-p-deb12u1_i386",
+					"name": "libgcc-s1",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "gcc-12-base_12.2.0-14-p-deb12u1_i386",
+					"name": "gcc-12-base",
+					"version": "12.2.0-14+deb12u1"
+				},
+				{
+					"key": "libgmp10_2-6.2.1-p-dfsg1-1.1_i386",
+					"name": "libgmp10",
+					"version": "2:6.2.1+dfsg1-1.1"
+				},
+				{
+					"key": "libattr1_1-2.5.1-4_i386",
+					"name": "libattr1",
+					"version": "1:2.5.1-4"
+				},
+				{
+					"key": "libacl1_2.3.1-3_i386",
+					"name": "libacl1",
+					"version": "2.3.1-3"
+				}
+			],
+			"key": "coreutils_9.1-1_i386",
+			"name": "coreutils",
+			"sha256": "96a9a385f03210b2b9037d04c9ec1869eb215be791b9083d60856711014017aa",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/c/coreutils/coreutils_9.1-1_i386.deb"
+			],
+			"version": "9.1-1"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libattr1_1-2.5.1-4_i386",
+			"name": "libattr1",
+			"sha256": "e064db901d4389a2dcad96b491137e933fd3598083077f78850c703074916261",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/attr/libattr1_2.5.1-4_i386.deb"
+			],
+			"version": "1:2.5.1-4"
+		},
+		{
+			"arch": "i386",
+			"dependencies": [],
+			"key": "libacl1_2.3.1-3_i386",
+			"name": "libacl1",
+			"sha256": "82d8cb6778124d48b33c2a06e729fc5cdac972e4f72e57855e002787c9296e54",
+			"urls": [
+				"https://snapshot.debian.org/archive/debian/20260801T000000Z/pool/main/a/acl/libacl1_2.3.1-3_i386.deb"
+			],
+			"version": "2.3.1-3"
+		}
+	],
+	"version": 1
+}

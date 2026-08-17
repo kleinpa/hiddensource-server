@@ -1,0 +1,67 @@
+# The Debian packages that make up the image's userland.
+#
+# This file cannot make the claim its counterparts in counterstrikesource-server
+# and cs2-server make. Those list the four or five libraries the game binaries
+# name in their ELF headers, and nothing else. This one installs wine, and wine
+# brings roughly 170 packages with it even with recommends off. Nothing here is
+# derived from `objdump -p`, because the thing being run is a Windows PE that
+# links no Linux libraries at all.
+#
+# What is still true is that the list is *closed* and *pinned*: these three
+# entries plus the dependency closure the lockfile records, resolved against a
+# snapshot, installed at build time. That is the change this image makes over
+# the one it replaces, which ran `apt-get update && apt-get install wine xvfb`
+# inside its entrypoint on every container start -- roughly 400 packages
+# downloaded per boot, a hard dependency on the Debian archive being reachable
+# from wherever the server runs, and a different set of bytes every time.
+#
+#   wine    the reason this image exists. The Hidden is a Source 2006 mod and
+#           Valve's Source 2006 dedicated server ships for Windows only: app 205
+#           is 244 files, one .exe and 21 .dll, with no ELF object anywhere. The
+#           mod's own Linux server binary is unusable for want of an engine.
+#   xvfb    srcds.exe will not run headless. Without an X display it fails in
+#           CTextConsoleWin32::GetLine with !GetNumberOfConsoleInputEvents and
+#           never binds its port; this was measured, not assumed. See
+#           entrypoint.sh.
+#   bash      entrypoint.sh's interpreter.
+#   coreutils `sleep`, which it waits on the X socket with.
+#
+# Those last two are Debian Essential packages, which a normal `apt install`
+# never has to name because they are assumed present on any Debian system. This
+# base has no such assumption -- nothing is here that this file did not ask for
+# -- so leaving them out produces an image whose entrypoint fails with
+# `exec /entrypoint.sh: no such file or directory`, which reads as a missing
+# script rather than a missing shell.
+#
+# i386, and bookworm rather than trixie, and the two are the same decision:
+# srcds.exe is a 32-bit PE, so wine has to be 32-bit, and Debian retired i386 as
+# a fully supported architecture in trixie. The alternative -- an amd64 base with
+# i386 multiarch -- installs two copies of much of this closure to run one
+# 32-bit process, so the whole image is i386 instead.
+#
+# The consequence to be aware of: this base does not move forward with its
+# siblings. When they advance their snapshot date to stay ahead of whatever
+# toolchain built their addons, this one has no reason to follow, because it
+# compiles nothing. It moves when wine or a security update calls for it.
+#
+# Snapshot URLs pin the archive to a point in time, so a lockfile generated
+# today still resolves after Debian publishes a new point release. Nothing
+# updates the date automatically; after editing it, regenerate the lockfile:
+#
+#     bazel run @bookworm//:lock
+version: 1
+
+sources:
+  - channel: bookworm main contrib
+    url: https://snapshot.debian.org/archive/debian/20260801T000000Z
+  - channel: bookworm-security main contrib
+    url: https://snapshot.debian.org/archive/debian-security/20260801T000000Z
+
+archs:
+  - i386
+
+packages:
+  - wine
+  - xvfb
+  - bash
+  - coreutils

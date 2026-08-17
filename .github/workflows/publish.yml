@@ -1,27 +1,31 @@
-name: Publish
-
+name: publish
 on:
   push:
     branches:
       - main
-
   workflow_dispatch:
-
 jobs:
-  push:
+  publish:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Free disk space
-        run: |
-          sudo rm -rf /usr/share/dotnet
-          sudo rm -rf /opt/ghc
-          sudo rm -rf "/usr/local/share/boost"
-          sudo rm -rf "$AGENT_TOOLSDIRECTORY"
-      - uses: actions/checkout@v2
-      - name: Build and test image
-        run: bazelisk build -c opt //...
+      - uses: actions/checkout@v6
+
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}-build
+          repository-cache: true
+
       - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+        uses: docker/login-action@v4
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Build and push image
-        run: bazelisk run -c opt //:image_push
+        run: bazel run -c opt //:image_push
