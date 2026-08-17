@@ -1,0 +1,310 @@
+diff --git a/toolchain/BUILD.llvm_repo.tpl b/toolchain/BUILD.llvm_repo.tpl
+index 285778f..1ebd843 100644
+--- a/toolchain/BUILD.llvm_repo.tpl
++++ b/toolchain/BUILD.llvm_repo.tpl
+@@ -33,17 +33,21 @@ filegroup(
+         "bin/clang",
+         "bin/clang++",
+         "bin/clang-cpp",
+-    ],
++    ] + glob(
++        # clang-cl (Windows/MSVC-ABI targets): not all distributions contain it.
++        ["bin/clang-cl"],
++        allow_empty = True,
++    ),
+ )
+ 
+ filegroup(
+     name = "ld",
+-    # Not all distributions contain wasm-ld.
++    # Not all distributions contain wasm-ld or lld-link (Windows/MSVC-ABI targets).
+     srcs = [
+         "bin/ld.lld",
+         "bin/ld64.lld",
+     ] + glob(
+-        ["bin/wasm-ld"],
++        ["bin/wasm-ld", "bin/lld-link"],
+         allow_empty = True,
+     ),
+ )
+@@ -188,7 +192,8 @@ filegroup(
+ 
+ filegroup(
+     name = "ar",
+-    srcs = ["bin/llvm-ar"],
++    # llvm-lib (Windows/MSVC-ABI targets' archiver): not all distributions contain it.
++    srcs = ["bin/llvm-ar"] + glob(["bin/llvm-lib"], allow_empty = True),
+ )
+ 
+ filegroup(
+diff --git a/toolchain/cc_toolchain_config.bzl b/toolchain/cc_toolchain_config.bzl
+index ce95ebb..99249da 100644
+--- a/toolchain/cc_toolchain_config.bzl
++++ b/toolchain/cc_toolchain_config.bzl
+@@ -19,6 +19,12 @@ load(
+     "@rules_cc//cc/private/toolchain:unix_cc_toolchain_config.bzl",
+     unix_cc_toolchain_config = "cc_toolchain_config",
+ )
++
++# buildifier: disable=bzl-visibility
++load(
++    "@rules_cc//cc/private/toolchain:windows_cc_toolchain_config.bzl",
++    windows_cc_toolchain_config = "cc_toolchain_config",
++)
+ load("@rules_cc//cc/toolchains:args.bzl", "cc_args")
+ load("@rules_cc//cc/toolchains:feature.bzl", "cc_feature")
+ load("@rules_cc//cc/toolchains:feature_constraint.bzl", "cc_feature_constraint")
+@@ -54,6 +60,164 @@ def _idirafter(includes):
+         for flag in ("-idirafter", include)
+     ]
+ 
++# rules_cc's windows_cc_toolchain_config.bzl only emits MSVC-style artifact
++# extensions (.exe/.obj/.lib instead of Unix defaults) when `cpu` is exactly
++# "x64_windows" or "arm64_windows" (see `_use_msvc_toolchain` there) -- there
++# is no 32-bit entry, so a real "x64_x86" cpu value falls through to Unix
++# artifact naming and silently produces a broken toolchain. Reporting
++# "x64_windows" here (matching the 64-bit label) is a deliberate label lie
++# to reach that code path; it does not affect codegen, which comes entirely
++# from `target_system_name` (`--target=i686-pc-windows-msvc`) and the
++# `/MACHINE:X86` link/archive flags below. `target_cpu` otherwise only feeds
++# Bazel's own bookkeeping (e.g. the bazel-out directory name).
++def _windows_cpu(target_arch):
++    if target_arch == "x86_32":
++        return "x64_windows"
++    fail("Unsupported Windows target architecture: {}. Only x86_32 (via xwin's 32-bit sysroot) has been wired up in patches/toolchains_llvm-windows-i686.patch.".format(target_arch))
++
++def _machine_arch(target_arch):
++    if target_arch == "x86_32":
++        return "X86"
++    fail("Unsupported Windows target architecture: " + target_arch)
++
++# Matches xwin's `--preserve-ms-arch-notation` directory naming (used by
++# //windows:xwin_sysroot.bzl) for the VC-tools/SDK lib subdirectories.
++def _windows_lib_arch_dir(target_arch):
++    if target_arch == "x86_32":
++        return "x86"
++    fail("Unsupported Windows target architecture: " + target_arch)
++
++# Windows (clang-cl/lld-link, MSVC ABI) cc_toolchain_config. See the note at
++# the `target_os == "windows"` dispatch in cc_toolchain_config() above for why
++# this is a separate function rather than a branch woven into the Unix logic.
++def _cc_toolchain_config_windows(
++        name,
++        exec_arch,
++        target_arch,
++        target_system_name,
++        tools_path_prefix,
++        compiler_configuration,
++        cxx_builtin_include_directories):
++    sysroot_path = compiler_configuration["sysroot_path"]
++    if not sysroot_path:
++        fail(("Windows toolchains require a sysroot: a normalized (version-directory-" +
++              "free) Windows SDK + MSVC CRT layout as produced by " +
++              "//windows:xwin_sysroot.bzl. Configure one with " +
++              "`llvm.sysroot(targets = [\"windows-{}\"], ...)`.").format(target_arch))
++    sysroot_path = paths.ensure_trailing_slash(sysroot_path).rstrip("/")
++    arch_dir = _windows_lib_arch_dir(target_arch)
++
++    cxx_standard = compiler_configuration["cxx_standard"]
++
++    # Built as explicit /imsvc (compile) and /libpath: (link) flags rather
++    # than relying on clang-cl's own `/winsysroot:` auto-detection of the
++    # VC-tools/SDK subdirectories: as of LLVM 18, that auto-detection
++    # mis-joins the versioned subdirectory it finds into a malformed path --
++    # observed directly as `-internal-isystem :<root>/VC/Tools/MSVC/include`
++    # (a stray leading `:`), reported as "nonexistent" even though the
++    # directory is right there, silently dropping every sysroot header/lib
++    # path. A *different*, and differently wrong, guess at this same
++    # cross-compile case shipped in the unmerged upstream PR this patch is
++    # otherwise based on (bazel-contrib/toolchains_llvm#642): a single
++    # `/LIBPATH:<root>/lib` that doesn't match any real sysroot layout,
++    # failing with "could not open 'kernel32.lib'". The paths below were
++    # verified against a real xwin-produced sysroot by actually compiling
++    # and linking a small C++ program (STL headers, a virtual call, and
++    # windows.h) end to end -- see the patch's origin PR description for the
++    # exact commands.
++    include_flags = [
++        "/imsvc" + sysroot_path + "/VC/Tools/MSVC/include",
++        "/imsvc" + sysroot_path + "/WindowsKits/Include/ucrt",
++        "/imsvc" + sysroot_path + "/WindowsKits/Include/um",
++        "/imsvc" + sysroot_path + "/WindowsKits/Include/shared",
++    ]
++    lib_flags = [
++        "/libpath:" + sysroot_path + "/VC/Tools/MSVC/lib/" + arch_dir,
++        "/libpath:" + sysroot_path + "/WindowsKits/Lib/ucrt/" + arch_dir,
++        "/libpath:" + sysroot_path + "/WindowsKits/Lib/um/" + arch_dir,
++    ]
++
++    def _tool(tool_name):
++        return tools_path_prefix + tool_name
++
++    tool_paths = {
++        "ar": _tool("llvm-lib"),
++        "cpp": _tool("clang-cl"),
++        "dwp": _tool("llvm-dwp"),
++        "gcc": _tool("clang-cl"),
++        "gcov": _tool("llvm-profdata"),
++        "ld": _tool("lld-link"),
++        "llvm-cov": _tool("llvm-cov"),
++        "llvm-profdata": _tool("llvm-profdata"),
++        "nm": _tool("llvm-nm"),
++        "objcopy": _tool("llvm-objcopy"),
++        "objdump": _tool("llvm-objdump"),
++        "strip": _tool("llvm-strip"),
++    }
++
++    windows_cc_toolchain_config(
++        name = name,
++        cpu = _windows_cpu(target_arch),
++        # Reported as "msvc-cl", not "clang-cl": rules_cc's `_use_msvc_toolchain`
++        # gate treats them identically, but "msvc-cl" is what makes
++        # `select({"@rules_cc//cc/compiler:msvc-cl": ...})` -- used throughout
++        # this repo's flags (e.g. sourcemod/warnings.bzl, extension/flags.bzl)
++        # to pick MSVC-dialect flags for Windows -- actually match. clang-cl is
++        # a close enough cl.exe emulation that those flags apply unchanged.
++        compiler = "msvc-cl",
++        toolchain_identifier = "clang-cl-{}-windows".format(target_arch),
++        host_system_name = exec_arch,
++        target_system_name = target_system_name,
++        target_libc = "msvc",
++        abi_version = "local",
++        abi_libc_version = "local",
++        cxx_builtin_include_directories = cxx_builtin_include_directories,
++        tool_paths = tool_paths,
++        archiver_flags = ["/MACHINE:" + _machine_arch(target_arch)] + lib_flags,
++        default_link_flags = [
++            "/MACHINE:" + _machine_arch(target_arch),
++        ] + lib_flags,
++        default_compile_flags = [
++            "--target=" + target_system_name,
++            # Real MSVC's /W3, not clang-cl's /Wall: rules_sourcemod's own
++            # warning suppressions (sourcemod/warnings.bzl's
++            # UPSTREAM_WARNING_COPTS, appended after each target's /W3) are
++            # sized against upstream's actual AMBuildScript, which builds
++            # with /W3 and is "already quiet" about everything that list
++            # handles -- see that file's docstring. clang-cl's warning
++            # flags are cumulative, not a strict level override: /Wall here
++            # turns on clang-only diagnostics real MSVC's /W3 never has
++            # (-Wc++98-compat, -Wunsafe-buffer-usage, -Wunused-parameter
++            # among them), and a target's later /W3 doesn't turn them back
++            # off, it just adds its own smaller set on top -- so every
++            # vendored SourceMod/HL2SDK file neither this repo nor upstream
++            # owns warned on all of them, several hundred thousand lines of
++            # it on a clean build. /W3 here matches what upstream's own
++            # warning suppressions actually assume, for both this repo's
++            # targets and rules_sourcemod's.
++            "/W3",
++            "/MT",
++            "/DWIN32",
++            "/D_WIN32",
++            "/D_WINDOWS",
++            "/EHsc",
++            "/std:" + cxx_standard,
++        ] + include_flags,
++        dbg_mode_debug_flag = "/DEBUG /Od",
++        fastbuild_mode_debug_flag = "/DEBUG",
++        supports_parse_showincludes = False,
++        msvc_cl_path = tool_paths["gcc"],
++        msvc_link_path = tool_paths["ld"],
++        msvc_lib_path = tool_paths["ar"],
++        # Not load-bearing for header/lib resolution (the explicit /imsvc and
++        # /libpath: flags above do that) but rules_cc still sets these as
++        # literal INCLUDE/LIB env vars on compile/link actions, so point them
++        # at the sysroot rather than leaving the "*_not_found" defaults in
++        # the action environment.
++        msvc_env_include = sysroot_path + "/VC/Tools/MSVC/include",
++        msvc_env_lib = sysroot_path + "/VC/Tools/MSVC/lib/" + arch_dir,
++    )
++
+ # Macro for calling cc_toolchain_config from @bazel_tools with setting the
+ # right paths and flags for the tools.
+ def cc_toolchain_config(
+@@ -87,6 +251,24 @@ def cc_toolchain_config(
+     tools_path_prefix = paths.ensure_trailing_slash(tools_path_prefix)
+     wrapper_bin_prefix = paths.ensure_trailing_slash(wrapper_bin_prefix)
+ 
++    # Windows (clang-cl/lld-link, MSVC ABI) targets are handled by a
++    # self-contained function below rather than woven into the Unix/Darwin
++    # logic that follows: they use a different rules_cc config rule
++    # (`windows_cc_toolchain_config`), a different flag dialect (`/foo`, not
++    # `-foo`), and no libc++/libstdc++ stdlib choice (the sysroot supplies
++    # MSVC's own STL). Keeping it separate means every existing Unix/Darwin
++    # toolchain this repo already builds with is untouched by this branch.
++    if target_os == "windows":
++        return _cc_toolchain_config_windows(
++            name = name,
++            exec_arch = exec_arch,
++            target_arch = target_arch,
++            target_system_name = target_system_name,
++            tools_path_prefix = tools_path_prefix,
++            compiler_configuration = compiler_configuration,
++            cxx_builtin_include_directories = cxx_builtin_include_directories,
++        )
++
+     # A bunch of variables that get passed straight through to
+     # `create_cc_toolchain_config_info`.
+     # TODO: What do these values mean, and are they actually all correct?
+diff --git a/toolchain/internal/common.bzl b/toolchain/internal/common.bzl
+index 03d3aea..b2339df 100644
+--- a/toolchain/internal/common.bzl
++++ b/toolchain/internal/common.bzl
+@@ -28,6 +28,9 @@ SUPPORTED_TARGETS = [
+     ("none", "x86_64"),
+     ("wasip1", "wasm32"),
+     ("wasip1", "wasm64"),
++    # 32-bit Windows via clang-cl (MSVC ABI), cross-compiled from a Linux exec
++    # platform. Not upstreamed: see rules_sourcemod//patches/README.md.
++    ("windows", "x86_32"),
+ ]
+ 
+ # These are targets that can build without a sysroot.
+@@ -55,6 +58,14 @@ _toolchain_tools = {
+         "llvm-objcopy",
+         "llvm-objdump",
+         "llvm-strip",
++        # Windows (clang-cl/lld-link, MSVC ABI) targets. Present as native
++        # Linux ELF binaries in the same Linux LLVM distribution as the rest
++        # of this list -- LLVM's unified clang/lld drivers dispatch on
++        # argv0/symlink name, so no separate Windows-hosted distribution is
++        # needed to cross-compile to Windows from Linux.
++        "clang-cl",
++        "lld-link",
++        "llvm-lib",
+     ]
+ }
+ 
+@@ -157,7 +168,7 @@ def os_from_rctx(rctx):
+ 
+ def os_bzl(os):
+     # Return the OS string as used in bazel platform constraints.
+-    return {"darwin": "osx", "linux": "linux", "none": "none", "wasip1": "wasi"}[os]
++    return {"darwin": "osx", "linux": "linux", "none": "none", "wasip1": "wasi", "windows": "windows"}[os]
+ 
+ def arch(rctx):
+     arch = rctx.attr.exec_arch
+diff --git a/toolchain/internal/configure.bzl b/toolchain/internal/configure.bzl
+index 7696032..9795b42 100644
+--- a/toolchain/internal/configure.bzl
++++ b/toolchain/internal/configure.bzl
+@@ -497,6 +497,7 @@ def _cc_toolchain_str(
+         "wasm64": "wasm64-unknown-unknown",
+         "wasip1-wasm32": "wasm32-wasip1",
+         "wasip1-wasm64": "wasm64-wasip1",
++        "windows-x86_32": "i686-pc-windows-msvc",
+     }[target_pair]
+ 
+     target_toolchain_root = toolchain_info.toolchain_root
+@@ -580,6 +581,13 @@ def _cc_toolchain_str(
+             cxx_builtin_include_directories.extend([
+                 _join(sysroot_prefix, "/include"),
+             ])
++    elif target_os == "windows":
++        # clang-cl/lld-link resolve the sysroot's include/lib directories
++        # themselves from the `/winsysroot:` flag (see cc_toolchain_config.bzl),
++        # so there is no separate `%sysroot%`-relative path to declare here --
++        # unlike unix_cc_toolchain_config's `builtin_sysroot`, rules_cc's
++        # windows_cc_toolchain_config has no equivalent hook for it.
++        pass
+     else:
+         fail("Unreachable")
+ 

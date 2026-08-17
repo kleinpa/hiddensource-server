@@ -1,0 +1,139 @@
+"""The image's base system.
+
+There is no base image: the userland is the Debian packages listed in
+bookworm.yaml, which explains which ones and why this list is so much larger
+than its siblings'. This package builds the files none of them ship; defs.bzl
+lists the layers //:image stacks, packages included.
+"""
+
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "pkg_mklink")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+# Without /etc/nsswitch.conf glibc still resolves names -- its built-in default
+# is "dns [!UNAVAIL=return] files" -- but that consults DNS ahead of /etc/hosts,
+# which is the file a container runtime writes the pod's own names into. Three
+# lines to keep /etc/hosts authoritative, as it is on a Debian system.
+write_file(
+    name = "nsswitch_conf",
+    out = "nsswitch.conf",
+    content = [
+        "passwd: files",
+        "group: files",
+        "hosts: files dns",
+        "",
+    ],
+)
+
+# wine reads /etc/passwd to work out the user's home directory and name, and
+# with no entry at all it fails before it starts. The dpkg packages do not
+# supply one -- `base-files` and `base-passwd` are not installed, being
+# otherwise nothing but policy documents and an /etc skeleton.
+write_file(
+    name = "passwd_file",
+    out = "passwd",
+    content = [
+        "root:x:0:0:root:/root:/bin/bash",
+        "",
+    ],
+)
+
+write_file(
+    name = "group_file",
+    out = "group",
+    content = [
+        "root:x:0:",
+        "",
+    ],
+)
+
+pkg_files(
+    name = "etc_files",
+    srcs = [
+        ":group_file",
+        ":nsswitch_conf",
+        ":passwd_file",
+    ],
+    prefix = "/etc",
+)
+
+# Debian's wine package ships its binaries as wine-stable, wineserver-stable,
+# etc. and relies on `update-alternatives` (a postinst script) to symlink
+# the plain names (wine, wineserver, ...) to them -- the mechanism that lets
+# wine-stable and wine-development coexist. rules_distroless extracts .deb
+# contents directly without running postinst/triggers, so those symlinks --
+# and so the plain `wine` entrypoint.sh execs -- never get created. This
+# recreates the one alternative group actually installed here (only
+# wine-stable is in bookworm.yaml, so there's no real "alternative" to
+# choose between, just the missing symlink).
+_WINE_TOOLS = [
+    "wine",
+    "wineboot",
+    "winecfg",
+    "wineconsole",
+    "winedbg",
+    "winefile",
+    "winepath",
+    "wineserver",
+]
+
+[
+    pkg_mklink(
+        name = "wine_link_" + tool,
+        link_name = "/usr/bin/" + tool,
+        target = tool + "-stable",
+    )
+    for tool in _WINE_TOOLS
+]
+
+# wine-stable is itself a #!/bin/sh wrapper (it picks the 32- vs 64-bit real
+# binary at runtime -- see /usr/bin/wine-stable). /bin/sh is missing for the
+# same reason as the wine symlinks above: on a real Debian system it comes
+# from the `dash` package via its own update-alternatives entry, and dash
+# is not in bookworm.yaml (nothing else here needs a POSIX-strict shell,
+# only *a* /bin/sh to exist). bash runs in POSIX-compatible mode when
+# invoked as `sh`, which is standard practice for images that skip dash.
+pkg_mklink(
+    name = "sh_link",
+    link_name = "/bin/sh",
+    target = "bash",
+)
+
+# wine's own builtin user32.dll delay-loads zlib1.dll -- not a wine builtin
+# itself, but a real Windows DLL wine's package build expects to find
+# alongside its other DLLs at /usr/lib/i386-linux-gnu/wine/i386-windows/.
+# Debian's wine32 package pulls in libz-mingw-w64 for exactly this file
+# (that's the only reason libz-mingw-w64 is in this image's dependency
+# closure at all) but, same as the other symlinks on this page, relies on
+# a postinst/trigger script to link it into wine's own DLL directory --
+# without it, anything that touches user32.dll (CreateDialogParamW, hit
+# during ordinary wineboot startup) hard-aborts with "unimplemented
+# function ... status c0000135" before srcds.exe ever runs. Confirmed by
+# hand: `wine wineboot` exits 0 with this symlink present, aborts without
+# it.
+pkg_mklink(
+    name = "wine_zlib1_link",
+    link_name = "/usr/lib/i386-linux-gnu/wine/i386-windows/zlib1.dll",
+    target = "../../../../i686-w64-mingw32/lib/zlib1.dll",
+)
+
+# No merged-/usr symlinks here, and that is the opposite of what
+# counterstrikesource-server and cs2-server do -- worth stating, because copying
+# their //base wholesale is the obvious thing to do and it breaks this image.
+#
+# Those two are amd64 trixie, where libc6 has completed the usrmerge and ships
+# the loader at /usr/lib64/ld-linux-x86-64.so.2 only, so they have to supply the
+# /lib64 compatibility symlink Valve's binaries name.
+#
+# This one is i386 bookworm, where the .debs still carry the unmerged paths:
+# bash is ./bin/bash, libc6 is ./lib/ld-linux.so.2 and ./lib/i386-linux-gnu/.
+# The packages create real /bin, /lib and /sbin directories, and adding symlinks
+# at those paths in a layer stacked afterwards *replaces* the directories --
+# taking the shell and the dynamic loader with them. The symptom is
+# `exec /entrypoint.sh: no such file or directory`, which reads as a missing
+# script rather than a hidden /bin.
+pkg_tar(
+    name = "base_files_layer",
+    srcs = [":etc_files", ":sh_link", ":wine_zlib1_link"] + [":wine_link_" + tool for tool in _WINE_TOOLS],
+    visibility = ["//:__pkg__"],
+)

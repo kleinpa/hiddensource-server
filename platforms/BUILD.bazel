@@ -1,0 +1,24 @@
+"""The platform the image's contents are built for.
+
+Nothing in this repository is compiled, so this is not about a C++ toolchain.
+It exists because //base's Debian packages are selected by target platform:
+rules_distroless generates one `config_setting` per architecture in the manifest
+and its `:flat` target selects on them, so a build left on the host platform
+resolves no condition at all and fails with
+
+    configurable attribute "controls" in @bookworm//:dpkg_status doesn't match
+    this configuration
+
+//:image transitions its contents here rather than this being set globally,
+because the Python test targets have to keep resolving a host interpreter --
+there is no x86_32 build of it to download.
+"""
+
+platform(
+    name = "linux_i386",
+    constraint_values = [
+        "@platforms//cpu:x86_32",
+        "@platforms//os:linux",
+    ],
+    visibility = ["//visibility:public"],
+)

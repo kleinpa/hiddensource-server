@@ -1,28 +1,155 @@
 module(name = "hiddensource_server")
 
-bazel_dep(name = "rules_pkg", version = "0.9.1")
-bazel_dep(name = "rules_oci", version = "1.4.3")
+bazel_dep(name = "aspect_bazel_lib", version = "2.19.3")
+bazel_dep(name = "bazel_skylib", version = "1.8.2")
+bazel_dep(name = "platforms", version = "1.0.0")
+bazel_dep(name = "rules_distroless", version = "0.8.0")
+bazel_dep(name = "rules_oci", version = "2.2.6")
+bazel_dep(name = "rules_pkg", version = "1.3.0")
+bazel_dep(name = "rules_python", version = "1.9.2")
 bazel_dep(name = "rules_steam")
-
 git_override(
     module_name = "rules_steam",
-    commit = "2423ec2575a5f27cbefcc0b5d7a10126ccc5ce30",
+    commit = "cf093611289adae2d55bea927f9d8e9981c7403f",
     remote = "https://github.com/lanofdoom/rules_steam.git",
 )
 
-steam = use_extension("@rules_steam//:steam.bzl", "steam")
-steam.app(name = "srcds", app = "205", os = "windows")
-steam.app(name = "sdk", app = "215", os = "windows")
-use_repo(steam, "srcds", "sdk")
+# MetaMod:Source and SourceMod, compiled from source for the ep1 (Source
+# 2006) engine branch The Hidden runs on -- cross-compiled for Windows from
+# this Linux host, since srcds itself only exists there. See repos.bzl for
+# what's still fetched prebuilt (the mod itself, the auth extension) and why.
+bazel_dep(name = "rules_sourcemod")
 
-oci = use_extension("@rules_oci//oci:extensions.bzl", "oci")
-
-oci.pull(
-    name = "debian_i386",
-    tag = "bookworm-slim",
-    image = "docker.io/i386/debian",
+git_override(
+    module_name = "rules_sourcemod",
+    commit = "c97166e42ccee96935a4e497404a699c0711a2c7",
+    remote = "https://github.com/kleinpa/rules_sourcemod.git",
 )
-use_repo(oci, "debian_i386")
+
+
+# ---------------------------------------------------------------------------
+# Cross-compiling for 32-bit Windows (srcds.exe on Windows, like on Linux, is
+# 32-bit) from this Linux host, via clang-cl/lld-link targeting
+# i686-pc-windows-msvc. This is a copy of rules_sourcemod's own MODULE.bazel
+# setup for the exact same toolchain, not a reference to its instance of it:
+# toolchains_llvm's `llvm` extension refuses to be used by any module other
+# than the build's current root ("Only the root module can use the 'llvm'
+# extension"), so rules_sourcemod's own bazel_dep(toolchains_llvm)/
+# use_extension(llvm)/xwin_sysroot() calls are all marked dev_dependency =
+# True there -- otherwise merely depending on rules_sourcemod at all would
+# break this build, whether or not it touched a Windows target. That means
+# nothing rules_sourcemod sets up under that dev_dependency umbrella exists
+# for a module consuming it, so this module -- which really does need the
+# toolchain, as the actual root of its own build -- sets it up again itself.
+# rules_sourcemod's compiled targets don't care which module's instance of
+# the toolchain answers toolchain resolution for a windows_x86_32 target,
+# only that the constraints match, so this doesn't have to be the *same*
+# repository instance, just an equivalent one.
+#
+# See rules_sourcemod's own MODULE.bazel and windows/xwin_sysroot.bzl (in
+# that module) for the full rationale and the bugs worked around to get
+# here; keep this block's LLVM version/URL/sha256 and the patch file (copied
+# into //patches, not referenced cross-repo -- a single_version_override's
+# patches can only come from the overriding module itself) in sync with
+# rules_sourcemod's copy when bumping it.
+#
+# Registered globally, unlike rules_sourcemod's own (deliberately opt-in via
+# --extra_toolchains) use of the same toolchain: building Windows binaries
+# is this repository's entire purpose, not an occasional extra, so paying
+# the sysroot fetch/licensing-acknowledgment cost on every build is correct
+# here rather than something to opt into per invocation.
+# ---------------------------------------------------------------------------
+bazel_dep(name = "toolchains_llvm", version = "1.8.0")
+single_version_override(
+    module_name = "toolchains_llvm",
+    patch_strip = 1,
+    patches = ["//patches:toolchains_llvm-windows-i686.patch"],
+    version = "1.8.0",
+)
+
+llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
+llvm.toolchain(
+    name = "llvm_toolchain_windows_x86_32",
+    llvm_versions = {"": "22.1.8"},
+    sha256 = {"": "df0e1ecf16caf3489a272a5eea4eec9b0d82878f6477fa309504f918a0006384"},
+    strip_prefix = {"": "LLVM-22.1.8-Linux-X64"},
+    urls = {"": ["https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.8/LLVM-22.1.8-Linux-X64.tar.xz"]},
+)
+llvm.sysroot(
+    name = "llvm_toolchain_windows_x86_32",
+    label = "@windows_x86_32_sysroot//sysroot",
+    targets = ["windows-x86_32"],
+)
+use_repo(llvm, "llvm_toolchain_windows_x86_32")
+
+register_toolchains("@llvm_toolchain_windows_x86_32//:cc-toolchain-x86_32-windows")
+
+xwin_sysroot = use_repo_rule("@rules_sourcemod//windows:xwin_sysroot.bzl", "xwin_sysroot")
+
+# Downloads the Microsoft Windows SDK and MSVC++ Runtime via xwin
+# (github.com/Jake-Shadle/xwin) under Microsoft's own distribution terms --
+# see windows/xwin_sysroot.bzl (in rules_sourcemod) and
+# https://github.com/Jake-Shadle/xwin#license. `accept_license = True` is
+# this module's acknowledgment of that.
+xwin_sysroot(
+    name = "windows_x86_32_sysroot",
+    accept_license = True,
+    arch = "x86",
+)
+
+# The image is built up from Debian packages rather than pulled from a published
+# base. See //base:bookworm.yaml for the package list -- which, unlike this
+# image's siblings, is large, because wine is in it.
+apt = use_extension("@rules_distroless//apt:extensions.bzl", "apt")
+apt.install(
+    name = "bookworm",
+    lock = "//base:bookworm.lock.json",
+    manifest = "//base:bookworm.yaml",
+)
+use_repo(apt, "bookworm")
+
+steamapps = use_extension("//:steamapps.bzl", "steamapps_bzlmod")
+use_repo(steamapps, "srcds_2006")
 
 repos = use_extension("//:repos.bzl", "repos_bzlmod")
-use_repo(repos, "auth_by_steam_group", "hidden", "metamod", "sourcemod")
+use_repo(
+    repos,
+    "auth_by_steam_group_windows",
+    "hidden",
+    "metamod_windows_loader",
+    "vc_redist_x86",
+)
+
+# rules_sourcemod's own SourceMod presets (e.g. //sourcemod:sourcemod_ep1,
+# used in BUILD.bazel) deliberately ship with no bundled SourcePawn plugins --
+# which of SourceMod's ~24 stock plugins a server wants is a per-deployment
+# choice, not something the preset should decide (see sourcemod_game_server's
+# docstring in rules_sourcemod). A consumer that wants any of them pulls the
+# specific @sourcemod_sdk//:plugin_<name> targets in itself, which means
+# invoking this same module extension again here: repo mapping under bzlmod
+# is per-module, so seeing rules_sourcemod use it in its own MODULE.bazel
+# does not make @sourcemod_sdk visible from this one. bzlmod resolves the
+# extension once regardless of how many modules invoke it, so this doesn't
+# fetch or build anything twice.
+sourcemod_sdk = use_extension("@rules_sourcemod//sourcemod:extensions.bzl", "sourcemod")
+use_repo(sourcemod_sdk, "sourcemod_sdk")
+
+#
+# Test Dependencies
+#
+
+PYTHON_VERSION = "3.13"
+
+python = use_extension("@rules_python//python/extensions:python.bzl", "python")
+python.toolchain(
+    is_default = True,
+    python_version = PYTHON_VERSION,
+)
+
+pip = use_extension("@rules_python//python/extensions:pip.bzl", "pip")
+pip.parse(
+    hub_name = "pypi",
+    python_version = PYTHON_VERSION,
+    requirements_lock = "//tests:requirements.txt",
+)
+use_repo(pip, "pypi")

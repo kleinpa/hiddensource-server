@@ -1,133 +1,531 @@
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load", "oci_push")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files", "pkg_mkdirs", "strip_prefix")
+load("//:mapcycle.bzl", "mapcycle_file")
+load("//:platform_transition_pkg.bzl", "platform_transition_pkg_filegroup")
+load("//:steamapps.bzl", "BUILD_srcds_2006")
+load("//base:defs.bzl", "BASE_LAYERS")
 
 #
-# Source Dedicated Server Layer
+# Source 2006 Dedicated Server Layer
 #
-
+# App 205, which carries both the engine (srcds.exe and bin/*.dll) and the
+# Half-Life 2 content the mod's search paths reach through `Game hl2`.
+#
+# Only app 205 is installed, where the image this replaces installed app 215
+# (Source SDK Base 2006) on top of it as well. The two ship the same HL2 content
+# in different forms -- 205 as loose files under hl2/, 215 repacked into
+# vpks/depot_2xx_*.vpk -- and it is the loose form the 2006 dedicated server can
+# actually read. The vpk form is mounted through Steam's filesystem by app id,
+# which a dedicated server with no logged-in Steam client does not get; a build
+# carrying only the vpks fails at map load with `models/error.mdl couldn't be
+# loaded`. Dropping app 215 also removes 2.8 GB of duplicate content.
+#
 pkg_tar(
     name = "srcds_layer",
-    srcs = ["@srcds//:files"],
+    srcs = ["@srcds_2006//:files"],
     package_dir = "/opt/game",
 )
 
+# wine's own builtin user32.dll delay-loads zlib1.dll, a real Windows DLL
+# (not a wine builtin) that Debian's wine32 package expects to already be
+# present rather than providing itself -- //base:wine_zlib1_link supplies
+# it in wine's own DLL directory, but that alone turned out unreliable: on
+# a freshly created WINEPREFIX, wine's DLL search sometimes doesn't pick up
+# a "native" DLL living only in system32 (confirmed by hand -- an identical
+# `wine srcds.exe` invocation loaded zlib1.dll successfully in one prefix
+# and failed with "status c0000135" in another, fresh one). A copy directly
+# alongside srcds.exe is unconditionally reliable, since an application's
+# own directory is always the first place Windows (and wine) looks for a
+# DLL, ahead of any prefix-specific state.
 #
-# Source SDK Base 2006 Layer
-#
+# tags=["manual"] here and on every other target down to :image below: all
+# of them resolve @bookworm package aliases (e.g. libz-mingw-w64 just below)
+# that rules_distroless only generates a `select()` condition for under the
+# linux_i386 platform this whole image is built for -- see :image_i386's own
+# comment for why that transition lives there rather than in a .bazelrc.
+# Reached that way (`bazel build //:image_tarball`, `//:build_test`, or
+# through :image_i386 some other route) the transition is already active by
+# the time any of these are analyzed and they build fine; matched directly by
+# a wildcard (`//...`, `//:all`) they're analyzed in the untransitioned
+# (host) configuration instead, where that select() has no matching
+# condition and no default to fall back to -- a hard analysis error, not
+# something `select()` can be made to tolerate from this side since the
+# missing default lives in the generated @bookworm repository, not here.
+# "manual" is the standard way to keep a target buildable by its real
+# entrypoints while excluding it from wildcard patterns that were never
+# going to have the right configuration for it anyway.
+genrule(
+    name = "wine_zlib1_dll",
+    srcs = ["@bookworm//libz-mingw-w64:data"],
+    outs = ["zlib1.dll"],
+    cmd = "tar xzOf $(SRCS) ./usr/i686-w64-mingw32/lib/zlib1.dll > $@",
+    tags = ["manual"],
+)
+
+pkg_files(
+    name = "wine_zlib1_dll_file",
+    srcs = [":wine_zlib1_dll"],
+    tags = ["manual"],
+)
 
 pkg_tar(
-    name = "sdk_layer",
-    srcs = ["@sdk//:files"],
+    name = "wine_zlib1_layer",
+    srcs = [":wine_zlib1_dll_file"],
+    package_dir = "/opt/game",
+    tags = ["manual"],
+)
+
+# Real msvcp140.dll Layer
+#
+# SourceMod (built from source by rules_sourcemod, like MetaMod) links its
+# SourcePawn JIT against msvcp140.dll -- the MSVC C++ standard library --
+# and wine's own builtin substitute doesn't implement all of it. Confirmed
+# by hand: the server got as far as actually loading SourceMod's plugin
+# (once :metamod_loader_layer below and rules_sourcemod's sourcepawn.jit.x86
+# naming fix were both in place) and then hard-aborted the instant it hit
+# `wine: Call from ... to unimplemented function
+# msvcp140.dll.?_Throw_Cpp_error@std@@YAXH@Z` -- an MSVC STL helper used to
+# throw the standard exception types (out_of_range, length_error, ...),
+# common enough that its absence is fatal to nearly any real C++ program
+# linked against this DLL, not something narrow enough to code around.
+#
+# The fix mirrors wine_zlib1_layer just above: ship the real DLL and let an
+# application's own directory win over wine's builtin the same way it does
+# for zlib1.dll -- except msvcp140 unlike zlib1 *is* a wine builtin already,
+# so a same-directory copy alone isn't enough; wine's default DLL load
+# order still tries its own builtin first regardless of what's sitting next
+# to the .exe. See //:image's WINEDLLOVERRIDES for the other half of this
+# fix, forcing wine to prefer the native (real) DLL for just this one name.
+#
+# The real DLL comes from Microsoft's own Visual C++ Redistributable
+# installer (@vc_redist_x86 -- see repos.bzl for the license basis, the same
+# one rules_sourcemod's xwin_sysroot fetch already relies on). It's a thin
+# "web installer": the actual runtime DLLs aren't sitting in the top-level
+# archive the way an older, fully offline redistributable would have them --
+# they're in a second embedded Cabinet (WixAttachedContainer, in Wix/Burn
+# installer terms) concatenated onto the PE image after its own Authenticode
+# signature block, which these three genrules peel apart in turn:
+#   1) locate that second Cabinet by its "MSCF" magic (the first occurrence
+#      is the installer's own UI resource cab; the second is the payload)
+#      and slice the file open from there to the end;
+#   2) that Cabinet's own contents are two more Cabinets, one per MSI
+#      payload ("a10" = vcRuntimeMinimum, "a11" = vcRuntimeAdditional --
+#      only the first is needed here); unpack it out;
+#   3) unpack msvcp140.dll_x86 out of that inner Cabinet and give it its
+#      real name.
+# Uses the host's own `7z` the same way rules_sourcemod's hl2sdk patches use
+# the host's own `patch` (see _apply_patch there) -- this cross-compiling
+# setup already assumes a Linux-like host, so that's not a new requirement.
+genrule(
+    name = "vc_redist_payload_cab",
+    srcs = ["@vc_redist_x86//file"],
+    outs = ["vc_redist_payload.cab"],
+    cmd = """
+        offset=$$(grep -abo 'MSCF' $(SRCS) | sed -n '2p' | cut -d: -f1)
+        tail -c +$$((offset + 1)) $(SRCS) > $@
+    """,
+)
+
+genrule(
+    name = "vc_redist_runtime_minimum_cab",
+    srcs = [":vc_redist_payload_cab"],
+    outs = ["a10.cab"],
+    cmd = """
+        tmp=$$(mktemp -d)
+        7z x -y -o"$$tmp" $(SRCS) a10 >/dev/null
+        mv "$$tmp/a10" $@
+        rm -rf "$$tmp"
+    """,
+)
+
+genrule(
+    name = "msvcp140_dll",
+    srcs = [":vc_redist_runtime_minimum_cab"],
+    outs = ["msvcp140.dll"],
+    cmd = """
+        tmp=$$(mktemp -d)
+        7z x -y -o"$$tmp" $(SRCS) msvcp140.dll_x86 >/dev/null
+        mv "$$tmp/msvcp140.dll_x86" $@
+        rm -rf "$$tmp"
+    """,
+)
+
+pkg_files(
+    name = "msvcp140_dll_file",
+    srcs = [":msvcp140_dll"],
+)
+
+pkg_tar(
+    name = "msvcp140_layer",
+    srcs = [":msvcp140_dll_file"],
     package_dir = "/opt/game",
 )
 
 #
 # Hidden Layer
 #
+# The mod itself, whose archive is already rooted at `hidden/`.
+#
+pkg_files(
+    name = "hidden_files",
+    srcs = ["@hidden//:all"],
+    strip_prefix = strip_prefix.from_pkg(),
+)
 
 pkg_tar(
     name = "hidden_layer",
-    srcs = ["@hidden//:all"],
+    srcs = [":hidden_files"],
     package_dir = "/opt/game",
-    strip_prefix = "external/_main~repos_bzlmod~hidden",
 )
 
 #
-# MetaMod Layer
+# MetaMod + SourceMod Layer
 #
+# Built from source by rules_sourcemod (MODULE.bazel), not fetched -- the two
+# ship as a single preset there (SourceMod cannot run without MetaMod), so
+# they're one layer here too. //platforms's outer transition to linux_i386
+# (for //base's Debian package selection -- see the bottom of this file) has
+# already applied by the time BUILD.bazel is evaluated for :image, so this
+# transitions back to windows_x86_32 for just this subtree: srcds itself, and
+# so everything that loads into it, is Windows-only.
+#
+# platform_transition_pkg_filegroup (//platform_transition_pkg.bzl), not
+# aspect_bazel_lib's own platform_transition_filegroup used below for
+# :image_i386: that one only forwards DefaultInfo, which silently drops
+# sourcemod_ep1's PackageFilegroupInfo -- the provider carrying its actual
+# install paths (addons/metamod/bin/..., addons/sourcemod/bin/..., ...) --
+# and flattens everything to this package's root under its raw, unrenamed
+# cc_binary output name instead. See that file's docstring.
+platform_transition_pkg_filegroup(
+    name = "sourcemod_ep1_windows",
+    src = "@rules_sourcemod//sourcemod:sourcemod_ep1",
+    target_platform = "@rules_sourcemod//platforms:windows_x86_32",
+)
 
 pkg_tar(
-    name = "metamod_layer",
-    srcs = ["@metamod//:all"],
+    name = "sourcemod_layer",
+    srcs = [":sourcemod_ep1_windows"],
     package_dir = "/opt/game/hidden",
-    strip_prefix = "external/_main~repos_bzlmod~metamod",
+)
+
+# Stock SourceMod Plugins Layer
+#
+# //sourcemod:sourcemod_ep1 ships no bundled SourcePawn plugins by design --
+# see that target's own docstring in rules_sourcemod, and the MODULE.bazel
+# comment on why @sourcemod_sdk needs its own use_extension call here to be
+# reachable at all. server.cfg's `sm plugins load ...` lines name the ones
+# this server actually wants.
+#
+# No platform transition needed here, unlike :sourcemod_ep1_windows above --
+# a .smx is portable SourcePawn bytecode spcomp produces the same way
+# regardless of the target OS/arch srcds.exe itself is built for, so this
+# builds fine under whatever the ambient (host-ish) configuration already is
+# for the rest of this file.
+#
+# Each of these already carries its own addons/sourcemod/plugins/<name>.smx
+# destination via PackageFilesInfo (see spcomp/plugin.bzl's dest_dir), so
+# pkg_tar takes them directly, the same way :sourcemod_ep1_windows's own
+# per-file paths need no extra pkg_files wrapping.
+pkg_tar(
+    name = "sourcemod_plugins_layer",
+    srcs = [
+        "@sourcemod_sdk//:plugin_mapchooser",
+        "@sourcemod_sdk//:plugin_nextmap",
+        "@sourcemod_sdk//:plugin_nominations",
+        "@sourcemod_sdk//:plugin_rockthevote",
+    ],
+    package_dir = "/opt/game/hidden",
+)
+
+# MetaMod's own drop ships an addons/metamod.vdf, and this replaces it: the
+# stock one names a path that assumes the engine's own layout, while this one
+# points at ../hidden/addons/metamod/bin/server, which is where the loader
+# actually is once the mod is unpacked under /opt/game/hidden.
+#
+# A separate layer rather than another `srcs` entry above, because two files
+# claiming one path inside a single pkg_tar is an error rather than an override.
+# Between layers it is exactly an override, which is what is wanted.
+pkg_files(
+    name = "metamod_vdf_file",
+    srcs = ["metamod.vdf"],
+    prefix = "addons",
 )
 
 pkg_tar(
     name = "metamod_vdf_layer",
-    srcs = [":metamod.vdf"],
-    package_dir = "/opt/game/hidden/addons",
+    srcs = [":metamod_vdf_file"],
+    package_dir = "/opt/game/hidden",
 )
 
+# MetaMod loader Override Layer
 #
-# SourceMod Layer
+# addons/metamod/bin/server.dll -- the small bridge/thunk that masquerades as
+# the game DLL to the engine (loader/*.cpp in metamod-source) -- is the one
+# piece of the from-source build this replaces with AlliedModders' own
+# official Windows release, real-MSVC-built. Everything else (MetaMod's
+# core, addons/metamod/bin/metamod.2.ep1.dll, and SourceMod) still comes from
+# :sourcemod_ep1_windows above.
 #
+# The clang-cl-cross-compiled loader builds and boots fine on its own --
+# DLLInit succeeds, Game.dll loads, the manual GameInit/LevelInit/
+# LevelShutdown hooks fire correctly -- but crashes later, deep in
+# steamclient.dll/tier0.dll on a background thread, jumping through a
+# corrupted pointer, every time it's the loader in the mix. Confirmed by
+# swapping binaries in isolation: official loader + this build's own core
+# works; this build's own loader + official core crashes the same way. So
+# the miscompilation is in the loader specifically, not MetaMod's core
+# (where SourceHook lives, and where the two real clang-cl bugs this rebuild
+# already found and fixed both were) -- see the bottom of README.md.
+#
+# A separate layer for the same reason as metamod_vdf_layer just above: two
+# files can't claim addons/metamod/bin/server.dll in one pkg_tar, but a later
+# layer replacing an earlier one's file is exactly an override.
+genrule(
+    name = "metamod_loader_dll",
+    srcs = ["@metamod_windows_loader//:all"],
+    outs = ["server.dll"],
+    cmd = "cp $$(echo $(SRCS) | tr ' ' '\\n' | grep 'addons/metamod/bin/server\\.dll$$') $@",
+)
+
+pkg_files(
+    name = "metamod_loader_file",
+    srcs = [":metamod_loader_dll"],
+    prefix = "addons/metamod/bin",
+)
 
 pkg_tar(
-    name = "sourcemod_layer",
-    srcs = ["@sourcemod//:all"],
-    empty_dirs = ["/opt/game/hidden/addons/sourcemod/configs"],
+    name = "metamod_loader_layer",
+    srcs = [":metamod_loader_file"],
     package_dir = "/opt/game/hidden",
-    strip_prefix = "external/_main~repos_bzlmod~sourcemod",
 )
 
 #
 # Authorization Layer
 #
+# The extension ships as auth_by_steam_group.ext.1.ep1.dll, naming the engine
+# branch, and is copied to the unsuffixed name as well. SourceMod loads the
+# suffixed one; the plugin's `LoadExtension` call asks for the plain name.
+#
+pkg_files(
+    name = "authorization_files",
+    srcs = ["@auth_by_steam_group_windows//:all"],
+    strip_prefix = strip_prefix.from_pkg(),
+)
+
+genrule(
+    name = "auth_ext_alias",
+    srcs = ["@auth_by_steam_group_windows//:all"],
+    outs = ["auth_by_steam_group.ext.dll"],
+    cmd = "cp $$(echo $(SRCS) | tr ' ' '\\n' | grep 'auth_by_steam_group\\.ext\\.1\\.ep1\\.dll$$') $@",
+)
+
+pkg_files(
+    name = "authorization_alias_file",
+    srcs = [":auth_ext_alias"],
+    prefix = "addons/sourcemod/extensions",
+)
 
 pkg_tar(
     name = "authorization_layer",
+    srcs = [
+        ":authorization_alias_file",
+        ":authorization_files",
+    ],
     package_dir = "/opt/game/hidden",
-    srcs = ["@auth_by_steam_group//:all"],
-    strip_prefix = "external/_main~repos_bzlmod~auth_by_steam_group",
+)
+
+#
+# Mapcycle Layer
+#
+mapcycle_file(
+    name = "mapcycle",
+    map_archives = [":hidden_layer"],
+)
+
+pkg_files(
+    name = "mapcycle_files",
+    srcs = [":mapcycle"],
+    prefix = "cfg",
+)
+
+pkg_tar(
+    name = "mapcycle_layer",
+    srcs = [":mapcycle_files"],
+    package_dir = "/opt/game/hidden",
 )
 
 #
 # Config Layer
 #
+# The three empty files are load-bearing, which is why they are shipped rather
+# than created at boot as the previous image did:
+#
+#   configs/maplists.cfg     SourceMod fails to start its map list without it.
+#   cfg/sourcemod/*.cfg      SourceMod writes these on first run with its own
+#                            defaults, which then override what server.cfg set.
+#                            Shipping them empty keeps server.cfg authoritative.
+#
+pkg_files(
+    name = "server_cfg_file",
+    srcs = ["server.cfg"],
+    prefix = "cfg",
+)
+
+pkg_files(
+    name = "sourcemod_override_files",
+    srcs = [
+        "config/cfg/sourcemod/mapchooser.cfg",
+        "config/cfg/sourcemod/rtv.cfg",
+    ],
+    prefix = "cfg/sourcemod",
+    strip_prefix = strip_prefix.from_pkg("config/cfg/sourcemod"),
+)
+
+pkg_files(
+    name = "sourcemod_maplists_file",
+    srcs = ["config/addons/sourcemod/configs/maplists.cfg"],
+    prefix = "addons/sourcemod/configs",
+    strip_prefix = strip_prefix.from_pkg("config/addons/sourcemod/configs"),
+)
 
 pkg_tar(
     name = "config_layer",
-    srcs = [":server.cfg"],
-    package_dir = "/opt/game/hidden/cfg/templates",
+    srcs = [
+        ":server_cfg_file",
+        ":sourcemod_maplists_file",
+        ":sourcemod_override_files",
+    ],
+    package_dir = "/opt/game/hidden",
 )
 
 #
 # Final Image
 #
 
+pkg_files(
+    name = "entrypoint_file",
+    srcs = ["entrypoint.sh"],
+    attributes = pkg_attributes(mode = "0755"),
+)
+
+# wine writes its prefix here on first start, and the container may run with a
+# read-only root filesystem everywhere else.
+pkg_mkdirs(
+    name = "tmp_dir",
+    dirs = ["tmp"],
+    attributes = pkg_attributes(mode = "1777"),
+)
+
 pkg_tar(
     name = "entrypoint_layer",
-    srcs = [":entrypoint.sh"],
+    srcs = [
+        ":entrypoint_file",
+        ":tmp_dir",
+    ],
     package_dir = "/",
 )
 
+# There is no `base`: the image is assembled from the bottom up out of //base
+# and the layers below, so the architecture and os the manifest would otherwise
+# inherit have to be stated.
+#
+# `386`, not amd64. srcds.exe is a 32-bit PE and wine has to match it, so the
+# whole userland is i386 -- see //base:bookworm.yaml. Note that the image this
+# replaces asked rules_oci for docker.io/i386/debian and got an amd64 manifest
+# anyway, then made up the difference by installing i386 multiarch packages at
+# runtime.
+#
+# The split between entrypoint and cmd is the configuration surface, as it is in
+# this image's siblings, and it is the one property that survived wine: the
+# entrypoint carries what the image insists on (-console, -game hidden,
+# -strictbindport, +ip 0.0.0.0) and cmd carries what a deployment replaces,
+# which is what Kubernetes substitutes when a pod spec sets `args:`. A convar
+# value containing spaces needs no quotes of its own -- just the one cmd
+# array element, e.g. `+hostname` `Server Name` -- wine's own translation
+# from argv to the single command-line string a Windows process actually
+# receives adds exactly the quoting that value needs. Adding quotes here on
+# top breaks it instead of helping: wine then has to escape those quote
+# characters too, and the result does not survive the round trip through
+# `wine start /wait` to reach the engine as anything sane. Confirmed by hand,
+# and see tests/server_test.py's test_convar_values_may_contain_spaces.
 oci_image(
     name = "image",
-    base = "@debian_i386",
+    architecture = "386",
+    cmd = [
+        "+map",
+        "hdn_traindepot",
+    ],
     entrypoint = ["/entrypoint.sh"],
     env = {
-        "HIDDEN_HOSTNAME": "",
-        "HIDDEN_MAP": "hdn_traindepot",
-        "HIDDEN_MOTD": "",
-        "HIDDEN_PASSWORD": "",
-        "HIDDEN_PORT": "27015",
-        "RCON_PASSWORD": "",
-        "STEAM_GROUP_ID": "",
-        "STEAM_API_KEY": "",
+        "HOME": "/root",
+        # See entrypoint.sh for both of these.
+        "WINEPREFIX": "/tmp/wine",
+        "WINEDEBUG": "-all",
+        # Forces wine to load the real msvcp140.dll (:msvcp140_layer, next to
+        # srcds.exe) instead of its own incomplete builtin substitute -- see
+        # that layer's comment in this file. "n" alone (not "n,b"): a
+        # same-directory native DLL is already the highest-priority search
+        # location, so there's no meaningful fallback case to keep the
+        # builtin around for, and "n,b" would silently mask a future
+        # packaging regression that dropped the file by falling back to the
+        # (still incomplete) builtin instead of failing loudly.
+        "WINEDLLOVERRIDES": "msvcp140=n",
     },
-    tars = [
+    exposed_ports = [
+        "27015/tcp",
+        "27015/udp",
+    ],
+    os = "linux",
+    tars = BASE_LAYERS + [
         ":srcds_layer",
-        ":sdk_layer",
+        ":wine_zlib1_layer",
+        ":msvcp140_layer",
         ":hidden_layer",
-        ":metamod_layer",
-        ":metamod_vdf_layer",
         ":sourcemod_layer",
+        ":sourcemod_plugins_layer",
+        ":metamod_vdf_layer",
+        ":metamod_loader_layer",
         ":authorization_layer",
+        ":mapcycle_layer",
         ":config_layer",
         ":entrypoint_layer",
     ],
+    tags = ["manual"],
+    visibility = ["//visibility:public"],
+    workdir = "/opt/game",
 )
 
-oci_tarball(
+# //base's packages are selected by target platform, so the image's contents
+# have to be built for i386 rather than for whatever host is running Bazel. The
+# transition is here rather than in a .bazelrc so that //tests keeps resolving a
+# host Python interpreter. See //platforms:BUILD.bazel.
+platform_transition_filegroup(
+    name = "image_i386",
+    srcs = [":image"],
+    target_platform = "//platforms:linux_i386",
+)
+
+oci_load(
     name = "image_tarball",
-    image = ":image",
+    image = ":image_i386",
     repo_tags = ["hiddensource-server:bazel"],
+    visibility = ["//tests:__pkg__"],
 )
 
 oci_push(
     name = "image_push",
-    image = ":image",
-    remote_tags = ["latest"],
-    repository = "ghcr.io/lanofdoom/hiddensource-server",
+    image = ":image_i386",
+    remote_tags = [
+        "latest",
+        "build{}".format(BUILD_srcds_2006),
+    ],
+    repository = "ghcr.io/kleinpa/hiddensource-server",
+)
+
+build_test(
+    name = "build_test",
+    targets = [":image_i386"],
 )
