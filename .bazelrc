@@ -1,1 +1,4 @@
-common --enable_bzlmod
+# Print a failing test's log inline. On CI the testlogs directory is gone once
+# the runner exits, and //tests:server_test's failures carry the whole srcds
+# log -- usually the only way to see why a server didn't come up there.
+test --test_output=errors

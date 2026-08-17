@@ -1,0 +1,39 @@
+name: test
+on:
+  push:
+    branches:
+      - renovate/*
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Bazel
+        uses: bazel-contrib/setup-bazel@0.19.0
+        with:
+          bazelisk-cache: true
+          disk-cache: ${{ github.workflow }}-build
+          repository-cache: true
+
+      # GitHub-hosted Ubuntu runners' default seccomp profile blocks 32-bit
+      # i386 socket() with ENOSYS, killing wineserver at startup (see
+      # tests/srcds.py's SRCDS_DOCKER_RUN_ARGS).
+      - name: Build and test image
+        run: >-
+          bazel test -c opt
+          --test_env=SRCDS_DOCKER_RUN_ARGS=--security-opt=seccomp=unconfined
+          //...
+
+      # The failure detail (which case, and the srcds console log the harness
+      # attaches) lives only in the runner's test.log; keep it.
+      - name: Upload test log
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: server-test-log
+          path: bazel-testlogs/tests/server_test/test.log

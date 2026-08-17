@@ -1,133 +1,369 @@
-load("@rules_pkg//:pkg.bzl", "pkg_tar")
-load("@rules_oci//oci:defs.bzl", "oci_image", "oci_push", "oci_tarball")
+load("@aspect_bazel_lib//lib:transitions.bzl", "platform_transition_filegroup")
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+load("@rules_oci//oci:defs.bzl", "oci_image", "oci_load", "oci_push")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_attributes", "pkg_files", "pkg_mkdirs", "strip_prefix")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+load("@rules_sourcemod//:defs.bzl", "platform_transition_pkg")
+load("@rules_steam//steam:defs.bzl", "steam_updater")
+load("//:mapcycle.bzl", "mapcycle_file")
+load("//:steamapps.bzl", "BUILD_srcds_2006")
+load("//base:defs.bzl", "BASE_LAYERS")
 
-#
-# Source Dedicated Server Layer
-#
+steam_updater(
+    name = "update_steamapps",
+    app = 205,
+    arch = "32",
+    os = "windows",
+    out = "steamapps.bzl",
+    repo = "srcds_2006",
+)
 
-pkg_tar(
-    name = "srcds_layer",
-    srcs = ["@srcds//:files"],
-    package_dir = "/opt/game",
+steam_updater(
+    name = "update_steamapps_steamworks",
+    app = 1007,
+    arch = "32",
+    os = "windows",
+    out = "steamapps_steamworks.bzl",
+    repo = "steamworks_sdk_redist",
 )
 
 #
-# Source SDK Base 2006 Layer
+# Source 2006 Dedicated Server Layer
 #
+# App 205 carries both the engine (bin/*.dll) and the loose hl2/ content the
+# mod mounts via `Game hl2`. App 215 (Source SDK Base 2006) is omitted: its vpk
+# content requires a logged-in Steam client to mount and adds 2.8 GB of
+# duplicates.
+#
+pkg_tar(
+    name = "srcds_layer",
+    srcs = ["@srcds_2006//:files"],
+    package_dir = "/opt/game",
+)
+
+# App 205's bundled steamclient.dll (both bin/steamclient.dll in depot 205 and
+# the root steamclient.dll in app 205's pinned depot 1004 snapshot) predates
+# Valve's current Steam CM protocol ("Could not establish connection to Steam
+# servers."). Layering the current Steamworks SDK redistributable at /opt/game
+# (next to srcds_headless.exe, which LoadLibrary searches ahead of bin/)
+# replaces steamclient.dll, tier0_s.dll, and vstdlib_s.dll with current builds
+# that still export SteamClient006 and SteamGameServer002.
+pkg_tar(
+    name = "steam_sdk_layer",
+    srcs = ["@steamworks_sdk_redist//:files"],
+    package_dir = "/opt/game",
+)
+
+# Headless SUBSYSTEM:CONSOLE replacement for Valve's GUI-subsystem srcds.exe
+# so server console output goes directly to container stdout without Xvfb.
+cc_binary(
+    name = "srcds_headless",
+    srcs = ["srcds_headless.c"],
+    features = ["static_link_msvcrt"],
+    linkopts = [
+        "/SUBSYSTEM:CONSOLE",
+        "kernel32.lib",
+    ],
+    target_compatible_with = [
+        "@platforms//cpu:x86_32",
+        "@platforms//os:windows",
+    ],
+)
+
+pkg_files(
+    name = "srcds_headless_files",
+    srcs = [":srcds_headless"],
+    attributes = pkg_attributes(mode = "0755"),
+    tags = ["manual"],
+)
+
+platform_transition_pkg(
+    name = "srcds_headless_windows",
+    src = ":srcds_headless_files",
+    tags = ["manual"],
+    target_platform = "@rules_sourcemod//platforms:windows_x86_32",
+)
 
 pkg_tar(
-    name = "sdk_layer",
-    srcs = ["@sdk//:files"],
+    name = "srcds_headless_layer",
+    srcs = [":srcds_headless_windows"],
     package_dir = "/opt/game",
+    tags = ["manual"],
+)
+
+# wine's builtin user32.dll delay-loads zlib1.dll. //base:wine_zlib1_link puts a
+# symlink in wine's system32, but on a fresh WINEPREFIX wine's DLL search does
+# not reliably find it there; placing a copy next to the executable is
+# unconditional.
+#
+# `tags = ["manual"]` excludes targets that depend on @bookworm's i386-only
+# `select()` from host-platform wildcard patterns (`//...`, `//:all`); they are
+# built via :image_i386's platform transition (`//:build_test`, `//:image_tarball`).
+genrule(
+    name = "wine_zlib1_dll",
+    srcs = ["@bookworm//libz-mingw-w64:data"],
+    outs = ["zlib1.dll"],
+    cmd = "tar xzOf $(SRCS) ./usr/i686-w64-mingw32/lib/zlib1.dll > $@",
+    tags = ["manual"],
+)
+
+pkg_files(
+    name = "wine_zlib1_dll_file",
+    srcs = [":wine_zlib1_dll"],
+    tags = ["manual"],
+)
+
+pkg_tar(
+    name = "wine_zlib1_layer",
+    srcs = [":wine_zlib1_dll_file"],
+    package_dir = "/opt/game",
+    tags = ["manual"],
 )
 
 #
 # Hidden Layer
 #
+pkg_files(
+    name = "hidden_files",
+    srcs = ["@hidden//:all"],
+    strip_prefix = strip_prefix.from_pkg(),
+)
 
 pkg_tar(
     name = "hidden_layer",
-    srcs = ["@hidden//:all"],
+    srcs = [":hidden_files"],
     package_dir = "/opt/game",
-    strip_prefix = "external/_main~repos_bzlmod~hidden",
 )
 
 #
-# MetaMod Layer
+# MetaMod + SourceMod Layer
 #
+# :image_i386 transitions to linux_i386 for //base's Debian packages, so
+# Windows engine addons transition to windows_x86_32 via platform_transition_pkg
+# (which preserves rules_pkg install paths).
+#
+platform_transition_pkg(
+    name = "sourcemod_ep1_windows",
+    src = "@rules_sourcemod//sourcemod:sourcemod_ep1",
+    target_platform = "@rules_sourcemod//platforms:windows_x86_32",
+)
 
 pkg_tar(
-    name = "metamod_layer",
-    srcs = ["@metamod//:all"],
+    name = "sourcemod_layer",
+    srcs = [
+        ":sourcemod_ep1_windows",
+        "@rules_sourcemod//sourcemod:plugin_basecommands",
+        "@rules_sourcemod//sourcemod:plugin_mapchooser",
+        "@rules_sourcemod//sourcemod:plugin_nextmap",
+        "@rules_sourcemod//sourcemod:plugin_nominations",
+        "@rules_sourcemod//sourcemod:plugin_rockthevote",
+    ],
     package_dir = "/opt/game/hidden",
-    strip_prefix = "external/_main~repos_bzlmod~metamod",
+)
+
+# Overrides MetaMod's stock addons/metamod.vdf with the mod-relative loader
+# path (`../hidden/addons/metamod/bin/server`). Kept as its own layer so tar
+# stacking overrides the file rather than colliding within one pkg_tar.
+pkg_files(
+    name = "metamod_vdf_file",
+    srcs = ["metamod.vdf"],
+    prefix = "addons",
 )
 
 pkg_tar(
     name = "metamod_vdf_layer",
-    srcs = [":metamod.vdf"],
-    package_dir = "/opt/game/hidden/addons",
-)
-
-#
-# SourceMod Layer
-#
-
-pkg_tar(
-    name = "sourcemod_layer",
-    srcs = ["@sourcemod//:all"],
-    empty_dirs = ["/opt/game/hidden/addons/sourcemod/configs"],
+    srcs = [":metamod_vdf_file"],
     package_dir = "/opt/game/hidden",
-    strip_prefix = "external/_main~repos_bzlmod~sourcemod",
 )
 
 #
 # Authorization Layer
 #
+platform_transition_pkg(
+    name = "auth_by_steam_group_windows",
+    src = "@auth_by_steam_group",
+    target_platform = "@rules_sourcemod//platforms:windows_x86_32",
+)
 
 pkg_tar(
     name = "authorization_layer",
+    srcs = [":auth_by_steam_group_windows"],
     package_dir = "/opt/game/hidden",
-    srcs = ["@auth_by_steam_group//:all"],
-    strip_prefix = "external/_main~repos_bzlmod~auth_by_steam_group",
+)
+
+#
+# Mapcycle Layer
+#
+mapcycle_file(
+    name = "mapcycle",
+    map_archives = [":hidden_layer"],
+)
+
+pkg_files(
+    name = "mapcycle_files",
+    srcs = [":mapcycle"],
+    prefix = "cfg",
+)
+
+pkg_tar(
+    name = "mapcycle_layer",
+    srcs = [":mapcycle_files"],
+    package_dir = "/opt/game/hidden",
 )
 
 #
 # Config Layer
 #
+pkg_files(
+    name = "server_cfg_file",
+    srcs = ["server.cfg"],
+    prefix = "cfg",
+)
+
+# Stubs prevent SourceMod from generating default cfg/sourcemod/*.cfg files on
+# first boot and clobbering server.cfg's convars. Non-empty because Source
+# 2006's `exec` underflows `size - 1` on a 0-byte file ("larger than 20MB"),
+# and free of semicolons because Cbuf_Execute splits commands before `//`.
+write_file(
+    name = "sourcemod_mapchooser_workaround",
+    out = "mapchooser.cfg",
+    content = [
+        "// Intentionally empty.",
+        "",
+    ],
+)
+
+write_file(
+    name = "sourcemod_rtv_workaround",
+    out = "rtv.cfg",
+    content = [
+        "// Intentionally empty.",
+        "",
+    ],
+)
+
+pkg_files(
+    name = "sourcemod_override_files",
+    srcs = [
+        ":sourcemod_mapchooser_workaround",
+        ":sourcemod_rtv_workaround",
+    ],
+    prefix = "cfg/sourcemod",
+)
 
 pkg_tar(
     name = "config_layer",
-    srcs = [":server.cfg"],
-    package_dir = "/opt/game/hidden/cfg/templates",
+    srcs = [
+        ":server_cfg_file",
+        ":sourcemod_override_files",
+    ],
+    package_dir = "/opt/game/hidden",
 )
 
 #
 # Final Image
 #
 
+# Writable /tmp for WINEPREFIX when running with a read-only root filesystem.
+pkg_mkdirs(
+    name = "tmp_dir",
+    attributes = pkg_attributes(mode = "1777"),
+    dirs = ["tmp"],
+)
+
 pkg_tar(
-    name = "entrypoint_layer",
-    srcs = [":entrypoint.sh"],
+    name = "tmp_layer",
+    srcs = [":tmp_dir"],
     package_dir = "/",
 )
 
+# Assembled from scratch out of //base and the layers below (`386` to match the
+# 32-bit Windows engine and wine).
+#
+# As in counterstrikesource-server and cs2-server, there is no entrypoint
+# script: wine + srcds_headless.exe is the entrypoint, carrying the flags the
+# image insists on, and cmd carries what a deployment overrides (Kubernetes
+# `args:`). Convar values with spaces take a single unquoted element (e.g.
+# `+hostname`, `Server Name`); wine quotes them when building the Win32 command
+# line.
 oci_image(
     name = "image",
-    base = "@debian_i386",
-    entrypoint = ["/entrypoint.sh"],
-    env = {
-        "HIDDEN_HOSTNAME": "",
-        "HIDDEN_MAP": "hdn_traindepot",
-        "HIDDEN_MOTD": "",
-        "HIDDEN_PASSWORD": "",
-        "HIDDEN_PORT": "27015",
-        "RCON_PASSWORD": "",
-        "STEAM_GROUP_ID": "",
-        "STEAM_API_KEY": "",
-    },
-    tars = [
-        ":srcds_layer",
-        ":sdk_layer",
-        ":hidden_layer",
-        ":metamod_layer",
-        ":metamod_vdf_layer",
-        ":sourcemod_layer",
-        ":authorization_layer",
-        ":config_layer",
-        ":entrypoint_layer",
+    architecture = "386",
+    cmd = [
+        "+map",
+        "hdn_traindepot",
     ],
+    entrypoint = [
+        "/usr/bin/wine",
+        "/opt/game/srcds_headless.exe",
+        "-console",
+        "-game",
+        "hidden",
+        "-strictbindport",
+        "+ip",
+        "0.0.0.0",
+    ],
+    env = {
+        "HOME": "/root",
+        "SSL_CERT_FILE": "/etc/ssl/certs/ca-certificates.crt",
+        "WINEDEBUG": "-all",
+        "WINEPREFIX": "/tmp/wine",
+        # Bypass Debian's #!/bin/sh wrapper so no shell package is needed.
+        "WINESERVER": "/usr/lib/wine/wineserver32",
+    },
+    exposed_ports = [
+        "27015/tcp",
+        "27015/udp",
+    ],
+    os = "linux",
+    tags = ["manual"],
+    # do not sort: layers are stacked in this order and later ones overwrite
+    # earlier ones.
+    tars = BASE_LAYERS + [
+        ":srcds_layer",
+        ":steam_sdk_layer",
+        ":srcds_headless_layer",
+        ":wine_zlib1_layer",
+        ":hidden_layer",
+        ":sourcemod_layer",
+        ":metamod_vdf_layer",
+        ":authorization_layer",
+        ":mapcycle_layer",
+        ":config_layer",
+        ":tmp_layer",
+    ],
+    visibility = ["//visibility:public"],
+    workdir = "/opt/game",
 )
 
-oci_tarball(
+# Transitions :image to linux_i386 here rather than in .bazelrc so //tests
+# keeps resolving a host Python interpreter. See //platforms:BUILD.bazel.
+platform_transition_filegroup(
+    name = "image_i386",
+    srcs = [":image"],
+    target_platform = "//platforms:linux_i386",
+)
+
+oci_load(
     name = "image_tarball",
-    image = ":image",
+    image = ":image_i386",
     repo_tags = ["hiddensource-server:bazel"],
+    visibility = ["//tests:__pkg__"],
 )
 
 oci_push(
     name = "image_push",
-    image = ":image",
-    remote_tags = ["latest"],
-    repository = "ghcr.io/lanofdoom/hiddensource-server",
+    image = ":image_i386",
+    remote_tags = [
+        "latest",
+        "build{}".format(BUILD_srcds_2006),
+    ],
+    repository = "ghcr.io/kleinpa/hiddensource-server",
+)
+
+build_test(
+    name = "build_test",
+    targets = [":image_i386"],
 )

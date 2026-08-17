@@ -1,31 +1,51 @@
 # LAN of DOOM The Hidden: Source Server
-Docker image for a private, preconfigured private The Hidden: Source server as
-used by the LAN of DOOM.
+
+Docker image for a preconfigured The Hidden: Source server as used by the LAN
+of DOOM.
 
 # Installation
-Run ``docker pull ghcr.io/lanofdoom/hiddensource-server:latest``
+
+Run `docker pull ghcr.io/kleinpa/hiddensource-server:latest`
 
 # Installed Addons
-*  LAN of DOOM Authenticate by Steam Group
-*  MetaMod:Source
-*  SourceMod
 
-# Environmental Variables
-``HIDDEN_HOSTNAME`` The name of the server as listed in Valve's server browser.
+- LAN of DOOM Authenticate by Steam Group
+- MetaMod:Source
+- SourceMod
 
-``HIDDEN_PASSWORD`` The password users must enter in order to join the server.
+# Configuration
 
-``HIDDEN_MAP`` The first map to run on the server. ``hdn_traindepot`` by
-default.
+The image runs the dedicated server under Wine via `srcds_headless.exe`,
+streaming console output to container `stdout` and forwarding `cmd` arguments
+directly to the engine. Configure it with command-line arguments and config
+files, the same way `srcds.exe` itself is configured.
 
-``HIDDEN_MOTD`` The MOTD to use for the server.
+The image's entrypoint sets `-console`, `-game hidden`, `-strictbindport`, and
+`+ip 0.0.0.0`. Override `cmd` (e.g. Kubernetes `args:`) to pass map and convar
+settings:
 
-``HIDDEN_PORT`` The port to use for the server. ``27015`` by default.
+```yaml
+args:
+  ["+map", "hdn_docks", "+hostname", "LAN of DOOM", "+sv_password", "hunter2"]
+```
 
-``RCON_PASSWORD`` The rcon password for the server.
+Pass convar values containing spaces as plain single elements (no inner quotes);
+Wine's argv-to-Win32 translation adds the quoting `srcds.exe` expects.
 
-``STEAM_GROUP_ID`` The Steam group to use for the allowlist of users joining the
-server.
+Config files live in `/opt/game/hidden/cfg`; mount a ConfigMap or Secret over a
+file there (e.g. `server.cfg`) to override it.
 
-``STEAM_API_KEY`` The [Steam API key](https://steamcommunity.com/dev/apikey) to
-use for the group membership checks with the Steam's Web API.
+# Development
+
+Build the image and load it into the local Docker daemon:
+
+```sh
+bazel run //:image_tarball
+```
+
+Run the test suite (starts the image in Docker and queries it over A2S and
+RCON):
+
+```sh
+bazel test //...
+```

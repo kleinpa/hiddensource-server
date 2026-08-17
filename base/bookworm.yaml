@@ -1,0 +1,27 @@
+# The Debian packages that make up the image's userland.
+#
+# Unlike counterstrikesource-server and cs2-server (which list the handful of
+# libraries their ELF binaries link against), this image runs a 32-bit Windows
+# PE under wine, so the userland is i386 bookworm (the last Debian release with
+# full i386 support) pinned to a snapshot lockfile at build time.
+#
+# //:srcds_headless runs the server without an X display and //:image invokes
+# wine directly, so xvfb, bash, and coreutils are not needed.
+#
+# After editing sources or packages, regenerate the lockfile:
+#
+#     bazel run @bookworm//:lock
+version: 1
+
+sources:
+  - channel: bookworm main contrib
+    url: https://snapshot.debian.org/archive/debian/20260801T000000Z
+  - channel: bookworm-security main contrib
+    url: https://snapshot.debian.org/archive/debian-security/20260801T000000Z
+
+archs:
+  - i386
+
+packages:
+  - ca-certificates
+  - wine

@@ -1,0 +1,97 @@
+"""The image's base system (see bookworm.yaml and defs.bzl)."""
+
+load("@bazel_skylib//rules:write_file.bzl", "write_file")
+load("@rules_distroless//distroless:defs.bzl", "cacerts")
+load("@rules_pkg//pkg:mappings.bzl", "pkg_files", "pkg_mklink")
+load("@rules_pkg//pkg:tar.bzl", "pkg_tar")
+
+# Keep /etc/hosts authoritative ahead of DNS (glibc's built-in default reverses
+# the order).
+write_file(
+    name = "nsswitch_conf",
+    out = "nsswitch.conf",
+    content = [
+        "passwd: files",
+        "group: files",
+        "hosts: files dns",
+        "",
+    ],
+)
+
+# wine requires an /etc/passwd entry to resolve the user's name and home
+# directory; base-passwd is not installed.
+write_file(
+    name = "passwd_file",
+    out = "passwd",
+    content = [
+        "root:x:0:0:root:/root:/sbin/nologin",
+        "",
+    ],
+)
+
+write_file(
+    name = "group_file",
+    out = "group",
+    content = [
+        "root:x:0:",
+        "",
+    ],
+)
+
+pkg_files(
+    name = "etc_files",
+    srcs = [
+        ":group_file",
+        ":nsswitch_conf",
+        ":passwd_file",
+    ],
+    prefix = "/etc",
+)
+
+# Debian's wine package ships /usr/bin/wine-stable and /usr/lib/wine/wineserver
+# as #!/bin/sh wrappers and relies on postinst `update-alternatives` to create
+# /usr/bin/wine and /usr/bin/wineserver. Symlink directly to the 32-bit ELF
+# binaries so no shell package is needed.
+pkg_mklink(
+    name = "wine_link",
+    link_name = "/usr/bin/wine",
+    target = "../lib/wine/wine",
+)
+
+pkg_mklink(
+    name = "wineserver_link",
+    link_name = "/usr/bin/wineserver",
+    target = "../lib/wine/wineserver32",
+)
+
+# wine's builtin user32.dll delay-loads zlib1.dll from wine's DLL directory;
+# rules_distroless does not run the postinst script that links it there.
+pkg_mklink(
+    name = "wine_zlib1_link",
+    link_name = "/usr/lib/i386-linux-gnu/wine/i386-windows/zlib1.dll",
+    target = "../../../../i686-w64-mingw32/lib/zlib1.dll",
+)
+
+# Note: no merged-/usr symlinks (/bin -> usr/bin, /lib -> usr/lib). Unlike
+# amd64 trixie, i386 bookworm .debs still populate real /bin and /lib
+# directories, and stacking symlinks on top replaces them.
+pkg_tar(
+    name = "base_files_layer",
+    srcs = [
+        ":etc_files",
+        ":wine_link",
+        ":wine_zlib1_link",
+        ":wineserver_link",
+    ],
+    visibility = ["//:__pkg__"],
+)
+
+# Generates /etc/ssl/certs/ca-certificates.crt (normally built by Debian's
+# postinst) so Wine's crypt32/Schannel and Steam networking trust TLS peers.
+# `manual` excludes it from host-platform `//...` wildcards (see //:BUILD.bazel).
+cacerts(
+    name = "cacerts_layer",
+    package = "@bookworm//ca-certificates:data",
+    tags = ["manual"],
+    visibility = ["//:__pkg__"],
+)
