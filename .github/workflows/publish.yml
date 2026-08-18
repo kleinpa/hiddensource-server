@@ -21,11 +21,11 @@ jobs:
           repository-cache: true
 
       - name: Log into registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir -p ~/.docker
+          printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' \
+            "$(printf '%s:%s' '${{ github.actor }}' '${{ secrets.GITHUB_TOKEN }}' | base64 -w0)" \
+            > ~/.docker/config.json
 
       - name: Build and push image
         run: bazel run -c opt //:image_push
