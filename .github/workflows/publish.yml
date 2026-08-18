@@ -21,10 +21,13 @@ jobs:
           repository-cache: true
 
       - name: Log into registry
+        env:
+          ACTOR: ${{ github.actor }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           mkdir -p ~/.docker
           printf '{"auths":{"ghcr.io":{"auth":"%s"}}}' \
-            "$(printf '%s:%s' '${{ github.actor }}' '${{ secrets.GITHUB_TOKEN }}' | base64 -w0)" \
+            "$(printf '%s:%s' "${ACTOR}" "${TOKEN}" | base64 -w0)" \
             > ~/.docker/config.json
 
       - name: Build and push image
